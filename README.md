@@ -11,10 +11,10 @@ This project aim is to test the different text/code editors options aviable to i
 
 This section will be updated every time a new text editor will be added to the compilation. For the moment, the project will contain:
 
-1. [SlateJS](###SlateJS)
-2. [Codemirror](###Codemirror)
-3. [Ace IDE](###AceIDE)
-4. [StackBlitz](###StackBlitz)
+1. [SlateJS](#slatejs)
+2. [Codemirror](#codemirror)
+3. [Ace IDE](#aceide)
+4. [StackBlitz](#stackblitz)
 
 ### [SlateJS](https://docs.slatejs.org/)
 
