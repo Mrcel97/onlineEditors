@@ -65,7 +65,7 @@ This section will be updated every time a new text editor will be added to the c
 
 ### StackBlitz
 
-    URL: Not deployed yet
+    URL: /stackblitz
 
     Component name: stack-blitz
 
