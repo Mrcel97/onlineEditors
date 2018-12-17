@@ -40,6 +40,7 @@ This section will be updated every time a new text editor will be added to the c
 1. SlateJS
 2. Codemirror
 3. Ace IDE
+4. StackBlitz
 
 ### SlateJS
 
@@ -61,3 +62,27 @@ This section will be updated every time a new text editor will be added to the c
     Component name:
     Files:
     Features:
+
+### StackBlitz
+
+    URL: Not deployed yet
+
+    Component name: stack-blitz
+
+    Files: 
+    stack-blitz.component.ts
+    stack-blitz.component.scss
+    stack-blitz.component.spec.ts
+    stack-blitz.component.html
+
+    Features: 
+      a. Intellisense, Project Search (Cmd/Ctrl+P), Go to Definition, and other key Visual 
+      Studio Code features.
+
+      b. Hot reloading as you type.
+
+      c. Import NPM packages into your project.
+
+      d. Keep editing while offline thanks to our revolutionary in-browser dev server.
+
+      e. Hosted app URL where you can see (or share) your live application at any time.
