@@ -4,8 +4,71 @@ This project aim is to test the different text/code editors options aviable to i
 
 ## Table of contents
 
-1. Angular project information
-2. Text editors
+1. Text editors
+2. Angular project information
+
+## Text editors
+
+This section will be updated every time a new text editor will be added to the compilation. For the moment, the project will contain:
+
+1. [SlateJS](#slatejs)
+2. [Codemirror](#codemirror)
+3. [Ace IDE](#aceide)
+4. [StackBlitz](#stackblitz)
+
+### [SlateJS](https://docs.slatejs.org/)
+
+    Docs:
+    URL:
+    Component name:
+    Files:
+    Features:
+
+### [Codemirror](https://codemirror.net/doc/manual.html)
+
+    Docs:
+    URL:
+    Component name:
+    Files:
+    Features:
+
+### [AceIDE](https://ace.c9.io/#nav=howto)
+
+    Docs:
+    URL:
+    Component name:
+    Files:
+    Features:
+
+### [StackBlitz](https://stackblitz.com/docs)
+
+    URL: /stackblitz
+
+    Component name: stack-blitz
+
+    Files: 
+    stack-blitz.component.ts
+    stack-blitz.component.scss
+    stack-blitz.component.spec.ts
+    stack-blitz.component.html
+
+    Features: 
+      a. Intellisense, Project Search (Cmd/Ctrl+P), Go to Definition, and other key Visual 
+      Studio Code features.
+
+      b. Hot reloading as you type.
+
+      c. Import NPM packages into your project.
+
+      d. Keep editing while offline thanks to our revolutionary in-browser dev server.
+
+      e. Hosted app URL where you can see (or share) your live application at any time.
+
+<br/>
+
+---
+
+<br/>
 
 ## Angular Project information
 
@@ -32,32 +95,3 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ### Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-## Text editors
-
-This section will be updated every time a new text editor will be added to the compilation. For the moment, the project will contain:
-
-1. SlateJS
-2. Codemirror
-3. Ace IDE
-
-### SlateJS
-
-    URL:
-    Component name:
-    Files:
-    Features:
-
-### Codemirror
-
-    URL:
-    Component name:
-    Files:
-    Features:
-
-### AceIDE
-
-    URL:
-    Component name:
-    Files:
-    Features:

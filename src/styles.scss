@@ -5,3 +5,23 @@ html, body {
   padding: 0;
   background-color: whitesmoke;
 }
+
+#editor {
+  width: 70em !important;
+  height: 50em;
+}
+
+.go-back {
+  display: grid;
+  border-radius: 50%;
+  width: 30px !important;
+  height: 30px !important;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+  margin-top: 1.25em;
+}
+
+.fas {
+  margin-top: -4.25px;
+}
