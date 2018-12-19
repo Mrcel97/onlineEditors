@@ -1,0 +1,5 @@
+<div class="d-flex flex-row">
+  <button type="button" class="btn btn-outline-info go-back" mdbWavesEffect (click)="router.navigateByUrl('/')"><i class="fas fa-arrow-left"></i></button>
+  <h1 class="p-2">Monaco Editor Example:</h1>
+</div>
+<ngx-monaco-editor class="my-code-editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
