@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import sdk from '@stackblitz/sdk'
 
 import { Router } from '@angular/router';
@@ -7,8 +7,6 @@ import { Router } from '@angular/router';
 import { project } from './project/project-info';
 import { project2 } from './project/project-info2';
 import { connectionError } from './project/error';
-
-
 
 @Component({
   selector: 'app-stack-bitz',
