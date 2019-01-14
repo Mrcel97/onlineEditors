@@ -15,6 +15,8 @@ This section will be updated every time a new text editor will be added to the c
 2. [Codemirror](#codemirror)
 3. [Ace IDE](#aceide)
 4. [StackBlitz](#stackblitz)
+5. [Froala](#froala)
+6. [Monaco](#monaco)
 
 ### [SlateJS](https://docs.slatejs.org/)
 
@@ -63,6 +65,54 @@ This section will be updated every time a new text editor will be added to the c
       d. Keep editing while offline thanks to our revolutionary in-browser dev server.
 
       e. Hosted app URL where you can see (or share) your live application at any time.
+
+### [Froala](https://www.froala.com/wysiwyg-editor/docs)
+
+    URL: /froala
+
+    Component name: froala
+
+    Files: 
+    froala.component.ts
+    froala.component.scss
+    froala.component.spec.ts
+    froala.component.html
+
+    Features: 
+      a. Developer friendly.
+
+      b. Easy to extend.
+
+      c. Out of the box plugins.
+
+      d. Inline WYSIWYG HTML Editor.
+
+      e. Multi-Framework.
+
+### [Monaco](https://github.com/atularen/ngx-monaco-editor)
+
+    URL: /monaco
+
+    Component name: froala
+
+    Files: 
+    monaco.component.ts
+    monaco.component.scss
+    monaco.component.spec.ts
+    monaco.component.html
+
+    Features: 
+      a. Rich IntelliSense, Validation.
+
+      b. Basic Syntax Colorization using Monarch.
+
+      c. Diff Editor, side by side live comparison.
+
+      d. Supports IE 11, Edge, Chrome, Firefox, Safari and Opera.
+
+      e. Monaco Editor is the code editor that powers VS Code.
+
+      f. Not supported in mobile browsers or mobile web frameworks. 
 
 <br/>
 
