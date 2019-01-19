@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { project } from './project/project-info';
 import { project2 } from './project/project-info2';
 import { connectionError } from './project/error';
+import { Workspace, workspaceFactory } from 'src/assets/model/workspace';
 
 @Component({
   selector: 'app-stack-bitz',
@@ -14,7 +15,8 @@ import { connectionError } from './project/error';
   styleUrls: ['./stack-bitz.component.scss']
 })
 export class StackBitzComponent implements OnInit {
-  virtualMachine: any; // TODO: Find and set the Type. Possibilities { 'StackBlitzComponent', 'more...' }
+  virtualMachine: any = null; // TODO: Find and set the Type. Possibilities { 'StackBlitzComponent', 'more...' }
+  workspace: Workspace;
 
   constructor(
     public router: Router
@@ -28,10 +30,20 @@ export class StackBitzComponent implements OnInit {
     })
   }
 
-  logSDK() {
-    if (!this.virtualMachine) {
-      console.error(connectionError)
-      return -1;
+  vmReady() {
+    if (this.virtualMachine == null) {
+      throw new TypeError;
+    }
+  }
+
+  createFile() {
+    try {
+      this.vmReady();
+    } catch (error) {
+      if (error instanceof(TypeError)) {
+        return console.error(connectionError);
+      }
+      return console.error('Unexpected error!')
     }
 
     this.virtualMachine.applyFsDiff({
@@ -42,8 +54,26 @@ export class StackBitzComponent implements OnInit {
     });
   }
 
+  getSnapshot() {
+    try {
+      this.vmReady();
+    } catch (error) {
+      if (error instanceof(TypeError)) {
+        return console.error(connectionError);
+      }
+      return console.error('Unexpected error!');
+    }
+    
+    this.virtualMachine.getFsSnapshot().then(
+      snapshot => {
+        this.workspace = workspaceFactory(snapshot);
+        console.log(this.workspace);
+      }
+    );
+  }
+
   refresh() {
     console.log(project);
-    sdk.embedProject('editor', project2);
+    sdk.embedProject('editor', project);
   }
 }
