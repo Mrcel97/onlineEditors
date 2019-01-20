@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import sdk from '@stackblitz/sdk'
 
 import { Router } from '@angular/router';
+import { StackBlitzService } from '../services/stack-blitz.service';
 
 // Project Imports
-import { project } from './project/project-info';
-import { project2 } from './project/project-info2';
-import { connectionError } from './project/error';
+import { project } from '../../assets/projects/project-info';
+import { connectionError } from '../../assets/errors/error';
 import { Workspace, workspaceFactory } from 'src/assets/model/workspace';
 
 @Component({
@@ -19,61 +19,26 @@ export class StackBitzComponent implements OnInit {
   workspace: Workspace;
 
   constructor(
+    public ideService: StackBlitzService,
     public router: Router
   ) { }
 
   ngOnInit() {
-    sdk.embedProject('editor', project, {
-      openFile: 'sampleProject.ts'
-    }).then( vm => {
-      this.virtualMachine = vm;
-    })
-  }
-
-  vmReady() {
-    if (this.virtualMachine == null) {
-      throw new TypeError;
-    }
+    this.ideService.createWorkspace();
   }
 
   createFile() {
-    try {
-      this.vmReady();
-    } catch (error) {
-      if (error instanceof(TypeError)) {
-        return console.error(connectionError);
-      }
-      return console.error('Unexpected error!')
-    }
+    var name = 'sampleFile' // TODO
+    var language = 'ts' // TODO
 
-    this.virtualMachine.applyFsDiff({
-      create: {
-        'sampleProject.ts': `// This file was generated in real time using the StackBlitz Virtual Machine.`
-      },
-      destroy: ['']
-    });
+    this.ideService.createFile(name, language);
   }
 
   getSnapshot() {
-    try {
-      this.vmReady();
-    } catch (error) {
-      if (error instanceof(TypeError)) {
-        return console.error(connectionError);
-      }
-      return console.error('Unexpected error!');
-    }
-    
-    this.virtualMachine.getFsSnapshot().then(
-      snapshot => {
-        this.workspace = workspaceFactory(snapshot);
-        console.log(this.workspace);
-      }
-    );
+    this.ideService.getSnapshot();
   }
 
   refresh() {
-    console.log(project);
-    sdk.embedProject('editor', project);
+    this.ideService.refresh();
   }
 }
