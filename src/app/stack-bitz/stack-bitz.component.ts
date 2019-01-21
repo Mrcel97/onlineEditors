@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import sdk from '@stackblitz/sdk'
 
 import { Router } from '@angular/router';
 import { StackBlitzService } from '../services/stack-blitz.service';
 
 // Project Imports
-import { project } from '../../assets/projects/project-info';
-import { connectionError } from '../../assets/errors/error';
-import { Workspace, workspaceFactory } from 'src/assets/model/workspace';
+import { Workspace } from 'src/assets/model/workspace';
 
 @Component({
   selector: 'app-stack-bitz',
@@ -28,6 +25,7 @@ export class StackBitzComponent implements OnInit {
   }
 
   createFile() {
+    console.log('Creating File');
     var name = 'sampleFile' // TODO
     var language = 'ts' // TODO
 
@@ -36,6 +34,10 @@ export class StackBitzComponent implements OnInit {
 
   getSnapshot() {
     this.ideService.getSnapshot();
+  }
+
+  receiveUpdates() {
+    this.ideService.receiveUpdates();
   }
 
   refresh() {
