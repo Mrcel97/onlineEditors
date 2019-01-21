@@ -5,6 +5,7 @@ import sdk from '@stackblitz/sdk'
 import { project } from '../../assets/projects/project-info';
 import { connectionError } from '../../assets/errors/error';
 import { Workspace, workspaceFactory } from 'src/assets/model/workspace';
+import { Update, sampleUpdateClass } from 'src/assets/model/update';
 
 @Injectable({
   providedIn: 'root'
@@ -67,8 +68,36 @@ export class StackBlitzService {
     );
   }
 
+  // This function is only to simulate the reception of data modified by another user.
+  receiveUpdates() {
+    var update = sampleUpdateClass();
+
+    try {
+      this.vmReady();
+    } catch (error) {
+      if (error instanceof(TypeError)) {
+        return console.error(connectionError);
+      }
+      return console.error('Unexpected error!')
+    }
+
+    console.log('Update file:', update.files[0].name, 'Adding content: ', update.files[0].content);
+
+    this.virtualMachine.applyFsDiff({
+      create: {
+        [update.files[0].name]: update.files[0].content,
+        [update.files[1].name]: update.files[1].content
+      },
+      destroy: ['']
+    });
+
+  }
+
   refresh() {
-    console.log(project);
-    sdk.embedProject('editor', project);
+    sdk.embedProject('editor', project, {
+      openFile: 'sampleProject.ts'
+    }).then( vm => {
+      this.virtualMachine = vm;
+    })
   }
 }
