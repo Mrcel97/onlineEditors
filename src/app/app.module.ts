@@ -4,7 +4,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AppRoutingModule } from './app-routing.module';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
 
 // Components
 import { AppComponent } from './app.component';
@@ -27,7 +27,7 @@ import { MonacoComponent } from './monaco/monaco.component';
     MDBBootstrapModule.forRoot(),
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
-    MonacoEditorModule.forRoot()
+    MonacoEditorModule
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [],

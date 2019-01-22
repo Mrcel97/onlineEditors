@@ -1,5 +1,36 @@
+.container {
+  margin: 0px;
+  min-width: 90vw;
+}
+.content {
+  margin-top: 5em;
+}
 .my-code-editor {
   .editorContainer {
     height: calc(100vh - 100px);
   }
+}
+.row-editors {
+  width: 90vw;
+}
+.card {
+  margin: .5em 2em .5em 2em;
+  min-width: 25em;
+}
+.col-xl-3 {
+  min-height: 15em;
+}
+.col-xl-12 {
+  margin-top: 1em;
+}
+h3 {
+  text-align: center;
+  color: #2196F3;
+  margin: 10px;
+}
+h2 {
+  text-align: center;
+}
+.diff-style {
+  height: 20em;
 }
