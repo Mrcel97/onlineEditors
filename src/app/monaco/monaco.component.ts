@@ -1,35 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DiffEditorModel } from 'ngx-monaco-editor';
 
 @Component({
   selector: 'app-monaco',
   templateUrl: './monaco.component.html',
   styleUrls: ['./monaco.component.scss']
 })
-export class MonacoComponent implements OnInit {
+export class MonacoComponent {
+  title = 'app';
+  theme = 'vs-dark';
+  themes = ['vs', 'vs-dark', 'hc-black'];
+  options = {theme: 'vs-dark'};
 
-  editorOptions = {theme: 'vs-dark', language: 'javascript'};
-  code: string= 'function x() {\nconsole.log("Hello world!");\n}';
-
-  options = {
-    theme: 'vs-dark'
-  };
-  originalModel: DiffEditorModel = {
-    code: 'heLLo world!',
-    language: 'text/plain'
-  };
-
-  modifiedModel: DiffEditorModel = {
-    code: 'hello orlando!',
-    language: 'text/plain'
-  };
+  setTheme(theme: string) {
+    if (theme) {
+      this.options = Object.assign({}, {theme: theme});
+    }
+  }
 
   constructor(
     public router: Router
-  ) { }
-
-  ngOnInit() {
-  }
-
+  ){}
 }

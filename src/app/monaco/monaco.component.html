@@ -1,5 +1,71 @@
-<div class="d-flex flex-row">
-  <button type="button" class="btn btn-outline-info go-back" mdbWavesEffect (click)="router.navigateByUrl('/')"><i class="fas fa-arrow-left"></i></button>
-  <h1 class="p-2">Monaco Editor Example:</h1>
+<div class="container content">
+  <div class="row d-flex flex-row">
+    <button type="button" class="btn btn-outline-info go-back" mdbWavesEffect (click)="router.navigateByUrl('/')"><i class="fas fa-arrow-left"></i></button>
+    <h1 class="p-2">Monaco Editor Example:</h1>
+  </div>
+  
+  <div class="row">
+    <h2 class="mat-h2">Theme </h2>
+    <select (change)="setTheme($event.target.value)" class="browser-default custom-select" placeholder="Theme" value="vs">
+      <option *ngFor="let t of themes;" [value]="t">{{t}}</option>
+    </select>
+  </div>
+  <br>
+  <h2 class="mat-h2">Basic Examples </h2>
+  <div class="row row-editors" style="height: 300px; display: flex;">
+    <div class="col-xl-3 card">
+      <h3>Typescript</h3>
+      <ngx-monaco-editor code="export class Animals {
+  private name: string;
+  constructor(name) {
+      this.name = name;
+  }
+}" [options]="{language:'typescript'}">
+      </ngx-monaco-editor>
+    </div>
+    <div class="col-xl-3 card">
+      <h3>Simple Text</h3>
+      <ngx-monaco-editor code="Hello World" [options]="options">
+      </ngx-monaco-editor>
+    </div>
+    <div class="col-xl-3 card">
+      <h3>Python</h3>
+      <ngx-monaco-editor code='print("Hello World")' [options]="{language:'python'}">
+      </ngx-monaco-editor>
+    </div>
+    <div class="col-xl-3 card">
+      <h3>Java</h3>
+      <ngx-monaco-editor language="java" code='public class HelloWorld { 
+        public static void main(String[] args) {
+            System.out.println(\"Hello, World");
+    }
+}' [options]="{language:'sql'}">
+      </ngx-monaco-editor>
+    </div>
+    <div class="col-xl-3 card">
+      <h3>JSON</h3>
+      <ngx-monaco-editor language="json" code='{
+  "user" : {
+    "id": "12345",
+    "name": "John",
+    "surname": "Doe"
+  }
+}' [options]="{language:'sql'}">
+      </ngx-monaco-editor>
+    </div>
+    <div class="col-xl-3 card">
+      <h3>SQL</h3>
+      <ngx-monaco-editor language="SQL" code="SELECT * FROM user;" [options]="{language:'sql'}">
+      </ngx-monaco-editor>
+    </div>
+    <br>
+    <div class="col-xl-12">
+      <h2>Diffs Editor Examples </h2>
+      <div class="card diff-style">
+          <h3>SQL</h3>
+          <ngx-monaco-diff-editor [options]="{theme: theme,  language:'sql'}" original="SELECT * FROM user;" modified="SELECT * FROM user;
+          WHERE user.id = 1;" enableSplitViewResizing="false" inline="true"></ngx-monaco-diff-editor>
+      </div>
+    </div>
+  </div>
 </div>
-<ngx-monaco-editor class="my-code-editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
