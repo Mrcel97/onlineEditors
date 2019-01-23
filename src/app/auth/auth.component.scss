@@ -1,0 +1,33 @@
+.dot-button {
+  background-image: url(../../assets/media/github-brands.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: black;
+  background-size: cover;
+
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  height: 5em;
+  border-radius: 50%;
+  border: solid 1x black;
+  margin-left: -6em;
+  margin-top: -11em;
+}
+
+.logout {
+  position: absolute;
+  bottom: 3.5em;
+  right: 1em;
+
+  width: .9em;
+  height: .9em;
+  border-radius: 50%;
+  background-color: whitesmoke;
+  z-index: 2;
+}
+
+.cross-icon {
+  position: absolute;
+  width: 1em;
+}

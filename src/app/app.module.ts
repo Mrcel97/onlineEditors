@@ -5,6 +5,9 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AppRoutingModule } from './app-routing.module';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth'
+import { AngularFirestoreModule, FirestoreSettingsToken } from 'angularfire2/firestore'
 
 // Components
 import { AppComponent } from './app.component';
@@ -12,6 +15,10 @@ import { HomeComponent } from './home/home.component';
 import { StackBitzComponent } from './stack-bitz/stack-bitz.component';
 import { FroalaComponent } from './froala/froala.component';
 import { MonacoComponent } from './monaco/monaco.component';
+import { AuthComponent } from './auth/auth.component';
+
+// Configs
+import { firebaseConfig } from '../assets/configs/firebaseConfig';
 
 @NgModule({
   declarations: [
@@ -19,7 +26,8 @@ import { MonacoComponent } from './monaco/monaco.component';
     HomeComponent,
     StackBitzComponent,
     FroalaComponent,
-    MonacoComponent
+    MonacoComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -27,10 +35,13 @@ import { MonacoComponent } from './monaco/monaco.component';
     MDBBootstrapModule.forRoot(),
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
-    MonacoEditorModule
+    MonacoEditorModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [],
+  providers: [{ provide: FirestoreSettingsToken, useValue: {} }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
