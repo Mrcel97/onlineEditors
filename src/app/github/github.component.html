@@ -1,0 +1,16 @@
+<div>
+  <ng-template #webRepoInfo>
+    Import web application repositories.
+    <br/><br/>
+    Supports: Angular, React, Ionic, TS, RxJS and Svelte.
+  </ng-template>
+
+  <a class="info" [mdbTooltip]="webRepoInfo" placement="left"><img class="info-icon" src="../../assets/media/info-solid.svg"/></a>  
+  <button (click)="showRepositoryInput()" *ngIf="!user" class="dot-button-sm" size="sm" mdbBtn type="button" color="white" mdbWavesEffect>
+    <i class="fas fa-globe fa-2x"></i>
+    <i class="fas fa-book fa-3x"></i>
+  </button>
+  <input [(ngModel)]="repoURL" *ngIf="repositoryInput" class="input-material-design" type="text" placeholder="Github_username/repository_name">
+  {{repoURL}}
+  <a *ngIf="repositoryInput" class="submit" (click)="submit()"><i class="fas fa-arrow-right"></i></a>
+</div>

@@ -1,0 +1,70 @@
+.dot-button-sm {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: black;
+  background-size: cover;
+
+  position: absolute;
+  bottom: 7em;
+  right: 1em;
+  height: 5em;
+  max-width: 5em;
+  max-height: 5em;
+  border-radius: 50%;
+  margin-left: -6em;
+  margin-top: -11em;
+
+  border: solid 2px #9F9F9F;
+}
+.fa-3x {
+  margin-left: -.32em;
+  margin-top: 2.35px;
+}
+.input-material-design {
+  border-radius: 20px;
+  border: solid 1px #3c3c3ca1;
+  padding-left: 8px;
+  padding-right: 8px;
+
+  position: absolute;
+  bottom: 5.5em;
+  right: 4.5em;
+  width: 15em;
+}
+.submit {
+  background-color: rgb(95, 230, 95);
+  padding: 1.5px 10px 10px 6px;
+  border-radius: 0px 20px 20px 0px;
+
+  position: absolute;
+  bottom: 5.5em;
+  right: 4.5em;
+  height: 28px;
+}
+.fa-arrow-right  {
+  margin-left: -1px;
+}
+.fa-globe {
+  position: absolute;
+  right: 1.2em;
+}
+.info {
+  position: absolute;
+  bottom: 7.4em;
+  right: 1.1em;
+
+  width: .9em;
+  height: .9em;
+  border-radius: 50%;
+  background-color: #1565c0;
+  z-index: 2;
+}
+.info:hover {
+  cursor: auto;
+}
+.info-icon {
+  position: absolute;
+  margin-left: .3em;
+  margin-top: 2px;
+  width: .25em;
+}

@@ -14,6 +14,7 @@ import { Workspace } from 'src/assets/model/workspace';
 export class StackBitzComponent implements OnInit {
   virtualMachine: any = null; // TODO: Find and set the Type. Possibilities { 'StackBlitzComponent', 'more...' }
   workspace: Workspace;
+  options: boolean = false;
 
   constructor(
     public ideService: StackBlitzService,
@@ -42,5 +43,9 @@ export class StackBitzComponent implements OnInit {
 
   refresh() {
     this.ideService.refresh();
+  }
+
+  showOptions(status: boolean) {
+    this.options = status;
   }
 }

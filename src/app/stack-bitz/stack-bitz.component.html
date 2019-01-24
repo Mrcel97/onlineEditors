@@ -7,4 +7,5 @@
   <button class="btn blue" (click)="getSnapshot()" mdbWavesEffect>get workspace</button>
 </div>
 <div #editor name='editor' id="editor"></div>
-<app-auth></app-auth>
+<app-github *ngIf="options"></app-github>
+<app-auth (options_notification)="showOptions($event)"></app-auth>

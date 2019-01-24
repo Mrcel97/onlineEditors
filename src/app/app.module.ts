@@ -7,7 +7,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth'
-import { AngularFirestoreModule, FirestoreSettingsToken } from 'angularfire2/firestore'
+import { AngularFirestoreModule, FirestoreSettingsToken } from 'angularfire2/firestore';
+import { FormsModule } from '@angular/forms';
 
 // Components
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { AuthComponent } from './auth/auth.component';
 
 // Configs
 import { firebaseConfig } from '../assets/configs/firebaseConfig';
+import { GithubComponent } from './github/github.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { firebaseConfig } from '../assets/configs/firebaseConfig';
     StackBitzComponent,
     FroalaComponent,
     MonacoComponent,
-    AuthComponent
+    AuthComponent,
+    GithubComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { firebaseConfig } from '../assets/configs/firebaseConfig';
     MonacoEditorModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    FormsModule
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [{ provide: FirestoreSettingsToken, useValue: {} }],
