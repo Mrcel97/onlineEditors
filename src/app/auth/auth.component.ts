@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { AuthService } from './../services/auth.service';
 import { FirebaseUser } from '../../assets/model/user';
@@ -10,7 +10,8 @@ import { FirebaseUser } from '../../assets/model/user';
 })
 export class AuthComponent implements OnInit {
   user: FirebaseUser;
-  logged: boolean;
+  options: boolean = false;
+  @Output() options_notification: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
   constructor(public authService: AuthService) { }
 
@@ -26,5 +27,10 @@ export class AuthComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  showOptions() {
+    this.options = (this.options) ? false : true;
+    this.options_notification.emit(this.options);
   }
 }

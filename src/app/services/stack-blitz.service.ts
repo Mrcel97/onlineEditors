@@ -3,29 +3,41 @@ import sdk from '@stackblitz/sdk'
 
 // Project Imports
 import { project } from '../../assets/projects/project-info';
-import { connectionError } from '../../assets/errors/error';
+import { connectionError } from '../../assets/messages/error';
 import { Workspace, workspaceFactory } from 'src/assets/model/workspace';
 import { Update, sampleUpdateClass } from 'src/assets/model/update';
+import { BehaviorSubject } from 'rxjs';
+import { VM } from '@stackblitz/sdk/typings/VM'
 
 @Injectable({
   providedIn: 'root'
 })
 export class StackBlitzService {
-  virtualMachine: any = null; // TODO: Find and set the Type. Possibilities { 'StackBlitzComponent', 'more...' }
+  virtualMachine$: BehaviorSubject<VM>; // TODO: Find and set the Type. Possibilities { 'StackBlitzComponent', 'more...' }
   workspace: Workspace;
 
-  constructor() { }
+  constructor() {
+    this.virtualMachine$ = new BehaviorSubject<VM>(null);
+  }
 
   createWorkspace() {
     sdk.embedProject('editor', project, {
       openFile: 'sampleProject.ts'
     }).then( vm => {
-      this.virtualMachine = vm;
+      this.virtualMachine$.next(vm);
+    })
+  }
+
+  loadGithubWorkspace(repositoryURL: string) {
+    sdk.embedGithubProject('editor', repositoryURL, {
+      openFile: 'sampleProject.ts'
+    }).then( vm => {
+      this.virtualMachine$.next(vm);
     })
   }
 
   vmReady() {
-    if (this.virtualMachine == null) {
+    if (this.virtualMachine$.value == null) {
       throw new TypeError;
     }
   }
@@ -42,7 +54,7 @@ export class StackBlitzService {
 
     var file_name = name + '.' + language
 
-    this.virtualMachine.applyFsDiff({
+    this.virtualMachine$.value.applyFsDiff({
       create: {
         [file_name]: `// This file was generated in real time using the StackBlitz Virtual Machine.`
       },
@@ -60,7 +72,7 @@ export class StackBlitzService {
       return console.error('Unexpected error!');
     }
     
-    this.virtualMachine.getFsSnapshot().then(
+    this.virtualMachine$.value.getFsSnapshot().then(
       snapshot => {
         this.workspace = workspaceFactory(snapshot);
         console.log(this.workspace);
@@ -83,7 +95,7 @@ export class StackBlitzService {
 
     console.log('Update file:', update.files[0].name, 'Adding content: ', update.files[0].content);
 
-    this.virtualMachine.applyFsDiff({
+    this.virtualMachine$.value.applyFsDiff({
       create: {
         [update.files[0].name]: update.files[0].content,
         [update.files[1].name]: update.files[1].content
@@ -97,7 +109,7 @@ export class StackBlitzService {
     sdk.embedProject('editor', project, {
       openFile: 'sampleProject.ts'
     }).then( vm => {
-      this.virtualMachine = vm;
+      this.virtualMachine$.next(vm);
     })
   }
 }
