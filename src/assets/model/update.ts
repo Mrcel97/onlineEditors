@@ -25,7 +25,6 @@ export function sampleUpdateClass() {
           1,
           'John Doe',
         ),
-        'ts',
         `import moment from 'moment';\r\nimport example from 'moment'; // This is an update\r\n\r\ndocument.getElementById('time').innerHTML = moment().format('MMMM Do YYYY, h:mm:ss a');\r\n`
       ),
       fileFactory(
@@ -35,7 +34,6 @@ export function sampleUpdateClass() {
           1,
           'John Doe',
         ),
-        'ts',
         `<h1>I was created on <span id='time'></span></h1>`
       ),
     ],

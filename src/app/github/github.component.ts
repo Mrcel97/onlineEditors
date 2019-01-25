@@ -1,6 +1,8 @@
+import { GithubService } from './../services/github.service';
 import { Component, OnInit } from '@angular/core';
 
 import { StackBlitzService } from '../services/stack-blitz.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-github',
@@ -9,9 +11,14 @@ import { StackBlitzService } from '../services/stack-blitz.service';
 })
 export class GithubComponent implements OnInit {
   repositoryInput: boolean = false;
+  fileInput: boolean = false;
   repoURL: string;
+  fileURL: string;
   
-  constructor(public stackBlitzService: StackBlitzService) { }
+  constructor(
+    public stackBlitzService: StackBlitzService, 
+    public githubService: GithubService
+  ) { }
 
   ngOnInit() { }
 
@@ -19,10 +26,25 @@ export class GithubComponent implements OnInit {
     this.repositoryInput = (this.repositoryInput) ? false : true;
   }
 
-  submit() {
+  showFileInput() {
+    this.fileInput = (this.fileInput) ? false : true;
+  }
+
+  loadWebRepo() {
     if (this.repoURL) {
       this.stackBlitzService.loadGithubWorkspace(this.repoURL);
     }
+  }
+
+  loadFile() {
+    var githubUserName: string = 'MrceL97';
+    var fileURL: string = 'https://api.github.com/repos/Mrcel97/ReactJSTutorial/contents/public/index.html';
+
+    this.githubService.obtainGithubFile(fileURL).subscribe(
+      file => {
+        this.stackBlitzService.createFile(file.name.split(".")[0], file.language, file.content);
+      }
+    )
   }
 
 }

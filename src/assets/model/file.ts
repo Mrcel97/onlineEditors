@@ -1,6 +1,8 @@
 import { User } from './user';
 
 export class File {
+  public html_url: string; // Github imported files
+
   constructor(
     public id: number,
     public name: string,
@@ -10,6 +12,6 @@ export class File {
   ) {}
 }
 
-export function fileFactory(id:number, name: string, owner: User, languge: string, content: string) {
-  return new File(id, name, owner, languge, content);
+export function fileFactory(id:number, name: string, owner: User, content: string) {
+  return new File(id, name, owner, name.split(".")[1], content);
 }
