@@ -38,13 +38,13 @@ export class GithubComponent implements OnInit {
 
   loadFile() {
     var githubUserName: string = 'MrceL97';
-    var fileURL: string = 'https://api.github.com/repos/Mrcel97/ReactJSTutorial/contents/public/index.html';
 
-    this.githubService.obtainGithubFile(fileURL).subscribe(
-      file => {
-        this.stackBlitzService.createFile(file.name.split(".")[0], file.language, file.content);
-      }
-    )
+    if (this.fileURL) {
+      this.githubService.obtainGithubFile(this.fileURL).subscribe(
+        file => {
+          this.stackBlitzService.createFile(file.name.split(".")[0], file.language, file.content);
+        }
+      );
+    }
   }
-
 }
