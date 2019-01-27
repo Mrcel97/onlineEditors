@@ -42,7 +42,7 @@ export class StackBlitzService {
     }
   }
 
-  createFile(name: string, language: string) {
+  createFile(name: string, language: string, content?: string) {
     try {
       this.vmReady();
     } catch (error) {
@@ -52,11 +52,14 @@ export class StackBlitzService {
       return console.error('Unexpected error!')
     }
 
-    var file_name = name + '.' + language
+    var file_name = name + '.' + language;
+    if (!content) {
+      content = `// This file was generated in real time using the StackBlitz Virtual Machine.`;
+    }
 
     this.virtualMachine$.value.applyFsDiff({
       create: {
-        [file_name]: `// This file was generated in real time using the StackBlitz Virtual Machine.`
+        [file_name]: content
       },
       destroy: ['']
     });

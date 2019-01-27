@@ -1,4 +1,11 @@
 <div>
+  <a class="info" [mdbTooltip]="webRepoInfo" placement="left"><img class="info-icon" src="../../assets/media/info-solid.svg"/></a>  
+  <button (click)="showFileInput()" *ngIf="!user" class="dot-button-sm load-file-button" size="sm" mdbBtn type="button" color="white" mdbWavesEffect>
+    <i class="fas fa-file fa-3x load-file-icon"></i>
+  </button>
+  <input [(ngModel)]="fileURL" *ngIf="fileInput" class="input-material-design file-input" type="text" placeholder="Github File URL">
+  <a *ngIf="fileInput" class="submit submit-file" (click)="loadFile()"><i class="fas fa-arrow-right"></i></a>
+
   <ng-template #webRepoInfo>
     Import web application repositories.
     <br/><br/>
@@ -8,9 +15,8 @@
   <a class="info" [mdbTooltip]="webRepoInfo" placement="left"><img class="info-icon" src="../../assets/media/info-solid.svg"/></a>  
   <button (click)="showRepositoryInput()" *ngIf="!user" class="dot-button-sm" size="sm" mdbBtn type="button" color="white" mdbWavesEffect>
     <i class="fas fa-globe fa-2x"></i>
-    <i class="fas fa-book fa-3x"></i>
+    <i class="fas fa-book fa-3x webRepo-icon"></i>
   </button>
   <input [(ngModel)]="repoURL" *ngIf="repositoryInput" class="input-material-design" type="text" placeholder="Github_username/repository_name">
-  {{repoURL}}
-  <a *ngIf="repositoryInput" class="submit" (click)="submit()"><i class="fas fa-arrow-right"></i></a>
+  <a *ngIf="repositoryInput" class="submit" (click)="loadWebRepo()"><i class="fas fa-arrow-right"></i></a>
 </div>

@@ -19,7 +19,7 @@ export function workspaceFactory(snapshot): Workspace {
   var owner = userFactory(user_id, 'John Doe') // TODO
 
   for(var file in snapshot) {
-    files.push(fileFactory(file_id+=1, file, owner, file.split(".")[1], snapshot[file]));
+    files.push(fileFactory(file_id+=1, file, owner, snapshot[file]));
   }
   
   return new Workspace(workspace_id, workspace_name, owner, files);
