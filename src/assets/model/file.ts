@@ -13,5 +13,14 @@ export class File {
 }
 
 export function fileFactory(id:number, name: string, owner: User, content: string) {
-  return new File(id, name, owner, name.split(".")[1], content);
-}
+  var nameComponents = name.split(".");
+  var fileName = nameComponents.slice(0, nameComponents.length - 1).join(".");
+  var fileLanguage: string;
+
+  if (nameComponents.length > 1) {
+    fileLanguage = nameComponents[nameComponents.length - 1];
+  } else {
+    fileLanguage = 'text';
+  }
+  return new File(id, fileName, owner, fileLanguage, content);
+};

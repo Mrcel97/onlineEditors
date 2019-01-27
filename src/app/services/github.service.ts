@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
-import { httpOptions } from '../../assets/headers/githubHeader';
 import { File, fileFactory } from '../../assets/model/file';
 import { userFactory } from '../../../dist/onlineEditors/assets/model/user';
 import { Subject } from 'rxjs';
@@ -29,9 +28,11 @@ export class GithubService {
             response
           )
         )
+      },
+      err => {
+        alert('The file URL provided was incorrect. Please check it and be sure this isn\'t a folder');
       }
-    )
-    
+    );
     return file;
   }
 
@@ -39,7 +40,7 @@ export class GithubService {
     var owner: string;
     var fileName: string;
     var filePath: string;
-    var apiUrl = 'https://raw.githubusercontent.com/'; // Mrcel97/ReactJSTutorial/master/public/index.html'
+    var apiUrl = 'https://raw.githubusercontent.com/';
 
     var url_content = this.divideURL(url);
 
