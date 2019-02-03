@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { File, fileFactory } from '../../assets/model/file';
-import { userFactory } from '../../../dist/onlineEditors/assets/model/user';
+import { userFactory } from '../../assets/model/user';
 import { Subject } from 'rxjs';
 
 @Injectable({

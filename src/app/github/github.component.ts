@@ -1,5 +1,5 @@
 import { GithubService } from './../services/github.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { StackBlitzService } from '../services/stack-blitz.service';
 import { BehaviorSubject } from 'rxjs';
@@ -10,6 +10,7 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./github.component.scss']
 })
 export class GithubComponent implements OnInit {
+  @Input() user: boolean;
   repositoryInput: boolean = false;
   fileInput: boolean = false;
   repoURL: string;
