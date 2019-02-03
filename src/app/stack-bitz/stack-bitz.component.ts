@@ -15,6 +15,7 @@ export class StackBitzComponent implements OnInit {
   virtualMachine: any = null; // TODO: Find and set the Type. Possibilities { 'StackBlitzComponent', 'more...' }
   workspace: Workspace;
   options: boolean = false;
+  userStatus: boolean = false;
 
   constructor(
     public ideService: StackBlitzService,
@@ -47,5 +48,9 @@ export class StackBitzComponent implements OnInit {
 
   showOptions(status: boolean) {
     this.options = status;
+  }
+
+  updateUserStatus(status: boolean) {
+    this.userStatus = status;
   }
 }

@@ -12,12 +12,14 @@ export class AuthComponent implements OnInit {
   user: FirebaseUser;
   options: boolean = false;
   @Output() options_notification: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  @Output() user_status: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
   constructor(public authService: AuthService) { }
 
   ngOnInit() {
     this.authService.user$.subscribe( user => {
       this.user = user;
+      this.user_status.emit(user ? true : false);
     } );
   }
 
