@@ -22,6 +22,7 @@ import { AuthComponent } from './auth/auth.component';
 // Configs
 import { firebaseConfig } from '../assets/configs/firebaseConfig';
 import { GithubComponent } from './github/github.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { GithubComponent } from './github/github.component';
     FroalaComponent,
     MonacoComponent,
     AuthComponent,
-    GithubComponent
+    GithubComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
