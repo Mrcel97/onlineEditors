@@ -1,8 +1,10 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import * as S from 'jquery';
+import * as $ from 'jquery';
+
+import  { backendURL } from '../../assets/configs/backendConfig';
 
 @Component({
   selector: 'app-chat',
@@ -10,11 +12,13 @@ import * as S from 'jquery';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  private serverUrl = 'http://localhost:8080/socket'
+  private serverUrl = backendURL;
   private title = 'WebSockets chat';
   private stompClient;
 
-  constructor() {
+  constructor(
+    public router: Router
+  ) {
     this.initializeWebSocketConnection();
   }
 
