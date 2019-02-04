@@ -1,35 +1,25 @@
-.chat-container{
+.chat-container {
   height: 80vh;
   width: 100vw;
 }
-.chat{
+.chat {
   text-align: left;
   margin: 0 auto;
   width: 50%;
-  height: 100%;
   border: 1px solid grey;
 }
-
-.footer{
-  background: #cccccc;
-  margin: 0 auto;
-  position: absolute;
-  bottom: 0;
-  height: 10vh;
-  width: 100vw;
-}
-.send-button{
+.send-button {
   margin: 0 auto;
   height: 70%;
   width: 50%;
 }
-input{
+input {
   float: right;
   height: 30px;
   border-radius: 15px;
   font-size: 1.5em;
 }
-.send{
+.send {
   float: right;
   background: url("../../assets/media/info-solid.svg");
   background-size: contain;
@@ -37,4 +27,11 @@ input{
   height: 30px;
   width: 30px;
   margin-left: 5px;
+}
+.form-control {
+  margin: -2.9em auto auto auto;
+  max-width: 98%;
+  min-height: 30vh;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
 }
