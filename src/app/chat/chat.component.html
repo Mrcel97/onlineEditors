@@ -1,21 +1,14 @@
 <div class="d-flex justify-content-center">
   <button type="button" class="btn btn-outline-info go-back" mdbWavesEffect (click)="router.navigateByUrl('/')"><i class="fas fa-arrow-left"></i></button>
-  <h1 class="p-2">Chat Example:</h1>
+  <h1 class="p-2">Real Time Example:</h1>
 </div>
 <div style="text-align:center">
   <div class="chat-container">
     <div class="chat">
+        <div class="md-form">
+          <textarea #chat (keyup)="sendMessage(chat.value)" [(ngModel)]="message" type="text" id="form7" class="md-textarea md-textarea-auto form-control"></textarea>
+        </div>
       <div class="message"></div>
     </div>
   </div>
-</div>
-
-<div class="footer">
-  <div class="send-button">
-
-    <div class="send" (click)="sendMessage(input.value)">
-    </div>
-    <input  id="input" type="text" #input>
-  </div>
-
 </div>
