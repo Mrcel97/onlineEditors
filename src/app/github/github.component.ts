@@ -2,7 +2,6 @@ import { GithubService } from './../services/github.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { StackBlitzService } from '../services/stack-blitz.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-github',
