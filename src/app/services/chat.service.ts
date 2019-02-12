@@ -13,7 +13,6 @@ var ENCODING = 'utf8';
   providedIn: 'root'
 })
 export class ChatService {
-  private serverUrl = backendURL;
   private stompClient;
   private message: BehaviorSubject<string> = new BehaviorSubject('');
   private messageContent: string;
@@ -22,11 +21,11 @@ export class ChatService {
   }
 
   initializeWebSocketConnection() {
-    let ws = new SockJS(this.serverUrl + '?user=87tr28rgf80d2');
+    let ws = new SockJS(backendURL);
     this.stompClient = Stomp.over(ws);
     // this.stompClient.debug = false;
 
-    this.stompClient.connect({}, () => {
+    this.stompClient.connect({'UserID': 'johnDoe'}, () => {
       this.stompClient.subscribe("/chat", (message) => {
         if(message.body || message.body === "") {
           this.receiveMessage(message);
@@ -39,7 +38,7 @@ export class ChatService {
   sendMessage(message) {
     this.messageContent = message;
     if(!message) message = '\0';
-    this.stompClient.send("/app/send/message", {'UserID': '87tr28rgf80d2'}, message);  // TODO: Use User ID
+    this.stompClient.send("/app/send/message", {}, message);  // TODO: Use User ID
   }
 
   saveSendMessage(message) {
