@@ -25,7 +25,7 @@ export class ChatService {
     this.stompClient = Stomp.over(ws);
     // this.stompClient.debug = false;
 
-    this.stompClient.connect({'UserID': 'johnDoe'}, () => {
+    this.stompClient.connect({'UserID': 'JohnDoe'}, () => { // TODO: Use real User ID
       this.stompClient.subscribe("/chat", (message) => {
         if(message.body || message.body === "") {
           this.receiveMessage(message);
@@ -38,7 +38,7 @@ export class ChatService {
   sendMessage(message) {
     this.messageContent = message;
     if(!message) message = '\0';
-    this.stompClient.send("/app/send/message", {}, message);  // TODO: Use User ID
+    this.stompClient.send("/app/send/message", {'UserID':'SmithDoe'}, message);  // TODO: Use User ID
   }
 
   saveSendMessage(message) {
