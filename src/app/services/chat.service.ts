@@ -16,6 +16,7 @@ export class ChatService {
   private stompClient;
   private message: BehaviorSubject<string> = new BehaviorSubject('');
   private messageContent: string;
+  private userUID: String = 'None';
 
   constructor() {
   }
@@ -25,7 +26,7 @@ export class ChatService {
     this.stompClient = Stomp.over(ws);
     // this.stompClient.debug = false;
 
-    this.stompClient.connect({'UserID': 'johnDoe'}, () => {
+    this.stompClient.connect({'UserID': this.userUID}, () => {
       this.stompClient.subscribe("/chat", (message) => {
         if(message.body || message.body === "") {
           this.receiveMessage(message);
@@ -38,7 +39,7 @@ export class ChatService {
   sendMessage(message) {
     this.messageContent = message;
     if(!message) message = '\0';
-    this.stompClient.send("/app/send/message", {}, message);  // TODO: Use User ID
+    this.stompClient.send("/app/send/message", {'UserID':this.userUID}, message);
   }
 
   saveSendMessage(message) {
@@ -49,6 +50,10 @@ export class ChatService {
   loadMessages() { // EXTRA FEATURE: Save not send written text locally so we don't lose it if we refresh
     localStorage.length > 0 ? this.message.next(localStorage.getItem('sndMessage')) : null;
     localStorage.clear();
+  }
+
+  setUserUID(userUID: String) {
+    this.userUID = userUID;
   }
 
   private receiveMessage(message) {

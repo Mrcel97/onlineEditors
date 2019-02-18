@@ -13,6 +13,7 @@ export class AuthComponent implements OnInit {
   options: boolean = false;
   @Output() options_notification: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Output() user_status: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  @Output() user_uid: EventEmitter<String> = new EventEmitter<String>();
 
   constructor(public authService: AuthService) { }
 
@@ -20,6 +21,7 @@ export class AuthComponent implements OnInit {
     this.authService.user$.subscribe( user => {
       this.user = user;
       this.user_status.emit(user ? true : false);
+      this.user_uid.emit(user ? user.uid : '');
     } );
   }
 

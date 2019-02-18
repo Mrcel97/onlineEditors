@@ -11,6 +11,7 @@ import { Idle, NotIdle } from 'idlejs/dist';
 export class ChatComponent implements OnInit {
   public chatContent: string;
   public message: string;
+  userUID: String = '';
 
   constructor(
     public router: Router, 
@@ -29,7 +30,7 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatService.sendMessage(this.message);
+    this.userUID != '' ? this.chatService.sendMessage(this.message) : null;
   }
 
   loadUserMode() {
@@ -41,5 +42,10 @@ export class ChatComponent implements OnInit {
       console.log('User active')
       this.chatService.saveSendMessage(this.message);
     }).start();
+  }
+
+  updateUserUID(status: String) {
+    this.userUID = status;
+    this.chatService.setUserUID(this.userUID);
   }
 }
