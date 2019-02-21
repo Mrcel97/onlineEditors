@@ -4,7 +4,7 @@ import sdk from '@stackblitz/sdk'
 // Project Imports
 import { project } from '../../assets/projects/project-info';
 import { connectionError } from '../../assets/messages/error';
-import { Workspace, workspaceFactory } from 'src/assets/model/workspace';
+import { Workspace, workspaceSnapshotFactory } from 'src/assets/model/workspace';
 import { Update, sampleUpdateClass } from 'src/assets/model/update';
 import { BehaviorSubject } from 'rxjs';
 import { VM } from '@stackblitz/sdk/typings/VM'
@@ -77,7 +77,7 @@ export class StackBlitzService {
     
     this.virtualMachine$.value.getFsSnapshot().then(
       snapshot => {
-        this.workspace = workspaceFactory(snapshot);
+        this.workspace = workspaceSnapshotFactory(snapshot);
         console.log(this.workspace);
       }
     );

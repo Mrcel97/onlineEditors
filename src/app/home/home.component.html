@@ -8,6 +8,7 @@
     <button class="col-sm-3" mdbBtn type="button" color="primary" outline="true" mdbWavesEffect (click)="router.navigateByUrl('/monaco')">Monaco</button>
   </div>
   <div class="row">
-    <button class="col-sm-3 " mdbBtn type="button" color="primary" outline="true" mdbWavesEffect (click)="router.navigateByUrl('/chat')">Chat</button>
+    <button class="col-sm-3 " mdbBtn type="button" color="primary" outline="true" mdbWavesEffect (click)="buildWorkspace('sample')">Chat</button>
   </div>
 </div>
+<app-auth (user_data)="updateUser($event)"></app-auth>

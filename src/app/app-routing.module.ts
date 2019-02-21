@@ -13,8 +13,9 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'stackblitz', component: StackBitzComponent },
   { path: 'froala', component: FroalaComponent },
-  { path: 'monaco', component: MonacoComponent } ,
-  { path: 'chat', component: ChatComponent }
+  { path: 'monaco', component: MonacoComponent },
+  { path: 'chat', component: ChatComponent },
+  { path: 'chat/:username/:workspace', component: ChatComponent}
 ];
 
 @NgModule({
