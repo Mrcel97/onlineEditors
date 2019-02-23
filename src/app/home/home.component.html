@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="margin-top: 40vh; height: auto;">
   <div class="row">
     <button class="col-sm-3" mdbBtn type="button" color="primary" outline="true" mdbWavesEffect>SlateJS</button>
     <button class="col-sm-3" mdbBtn type="button" color="primary" outline="true" mdbWavesEffect>Codemirror</button>
@@ -8,7 +8,6 @@
     <button class="col-sm-3" mdbBtn type="button" color="primary" outline="true" mdbWavesEffect (click)="router.navigateByUrl('/monaco')">Monaco</button>
   </div>
   <div class="row">
-    <button class="col-sm-3 " mdbBtn type="button" color="primary" outline="true" mdbWavesEffect (click)="buildWorkspace('sample')">Chat</button>
+    <button class="col-sm-3 " mdbBtn type="button" color="primary" outline="true" mdbWavesEffect (click)="router.navigateByUrl('/chat')">Chat</button>
   </div>
 </div>
-<app-auth (user_data)="updateUser($event)"></app-auth>

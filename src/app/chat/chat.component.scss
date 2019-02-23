@@ -1,37 +1,8 @@
-.chat-container {
-  height: 80vh;
-  width: 100vw;
-}
-.chat {
-  text-align: left;
-  margin: 0 auto;
-  width: 50%;
-  border: 1px solid grey;
-}
-.send-button {
-  margin: 0 auto;
-  height: 70%;
-  width: 50%;
-}
-input {
-  float: right;
-  height: 30px;
-  border-radius: 15px;
-  font-size: 1.5em;
-}
-.send {
-  float: right;
-  background: url("../../assets/media/info-solid.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 30px;
-  width: 30px;
-  margin-left: 5px;
-}
 .form-control {
-  margin: -2.9em auto auto auto;
-  max-width: 98%;
-  min-height: 30vh;
-  padding-left: 5px !important;
-  padding-right: 5px !important;
+  display: inline-block;
+  width: auto;
+}
+
+.success-message, .error-message {
+  top: 50px;
 }

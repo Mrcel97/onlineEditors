@@ -7,3 +7,9 @@ export const httpOptions = {
     'Access-Control-Allow-Origin': '*'
   })
 };
+
+export const httpWorkspaceOptions = {
+  headers: new HttpHeaders({
+    Accept: 'application/json'
+  })
+}

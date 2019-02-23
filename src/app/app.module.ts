@@ -17,12 +17,14 @@ import { HomeComponent } from './home/home.component';
 import { StackBitzComponent } from './stack-bitz/stack-bitz.component';
 import { FroalaComponent } from './froala/froala.component';
 import { MonacoComponent } from './monaco/monaco.component';
+import { GithubComponent } from './github/github.component';
 import { AuthComponent } from './auth/auth.component';
+import { ChatComponent } from './chat/chat.component';
+import { ChatRoomComponent } from './chat/chat-room/chat-room.component';
 
 // Configs
 import { firebaseConfig } from '../assets/configs/firebaseConfig';
-import { GithubComponent } from './github/github.component';
-import { ChatComponent } from './chat/chat.component';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { ChatComponent } from './chat/chat.component';
     MonacoComponent,
     AuthComponent,
     GithubComponent,
-    ChatComponent
+    ChatComponent,
+    ChatRoomComponent
   ],
   imports: [
     BrowserModule,
