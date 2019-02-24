@@ -22,7 +22,7 @@ export function sampleUpdateClass() {
         0, 
         'index.ts',
         userFactory(
-          1,
+          '1',
           'John Doe',
         ),
         `import moment from 'moment';\r\nimport example from 'moment'; // This is an update\r\n\r\ndocument.getElementById('time').innerHTML = moment().format('MMMM Do YYYY, h:mm:ss a');\r\n`
@@ -31,14 +31,14 @@ export function sampleUpdateClass() {
         0, 
         'index.html',
         userFactory(
-          1,
+          '1',
           'John Doe',
         ),
         `<h1>I was created on <span id='time'></span></h1>`
       ),
     ],
     userFactory(
-      2,
+      '2',
       'Doe John'
     )
   );

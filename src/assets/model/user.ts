@@ -1,6 +1,6 @@
 export class User {
   constructor(
-    public id: number,
+    public id: string,
     public name: string
   ){}
 }
@@ -15,7 +15,7 @@ export class FirebaseUser {
   ){}
 }
 
-export function userFactory(id: number, name: string) {
+export function userFactory(id: string, name: string) {
   return new User(id, name);
 }
 

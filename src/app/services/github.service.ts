@@ -14,7 +14,7 @@ export class GithubService {
   obtainGithubFile(fileURL: string): Subject<File> {
     var file: Subject<File> = new Subject();
     var fileId: number = 0; // TODO
-    var userId: number = 1; // TODO
+    var userId: string = '1'; // TODO
 
     var fileData = this.parseGithubURL(fileURL);
     
