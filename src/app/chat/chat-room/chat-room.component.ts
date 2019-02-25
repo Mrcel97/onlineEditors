@@ -22,9 +22,7 @@ export class ChatRoomComponent implements OnInit {
   ) {
     var params = this.route.snapshot.paramMap.get("workspace")
     if (params) { // POST MODE
-
-    } else { // GET MODE
-
+      this.chatService.setRoomID(params);
     }
   }
 

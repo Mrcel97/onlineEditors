@@ -17,6 +17,7 @@ export class ChatService {
   private message: BehaviorSubject<string> = new BehaviorSubject('');
   private messageContent: string;
   private userUID: String = 'None';
+  private roomID: String = '';
 
   constructor() {
   }
@@ -39,7 +40,7 @@ export class ChatService {
   sendMessage(message) {
     this.messageContent = message;
     if(!message) message = '\0';
-    this.stompClient.send("/app/send/message", {'UserID':this.userUID}, message);
+    this.stompClient.send("/app/send/message", {'UserID':this.userUID, 'room_id':this.roomID}, message);
   }
 
   saveSendMessage(message) {
@@ -54,6 +55,10 @@ export class ChatService {
 
   setUserUID(userUID: String) {
     this.userUID = userUID;
+  }
+
+  setRoomID(roomID: String) {
+    this.roomID = roomID;
   }
 
   private receiveMessage(message) {
