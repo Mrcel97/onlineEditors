@@ -17,6 +17,7 @@ export class ChatService {
   private message: BehaviorSubject<string> = new BehaviorSubject('');
   private messageContent: string;
   private userUID: String = 'None';
+  private roomID: String = '';
 
   constructor() {
   }
@@ -27,7 +28,7 @@ export class ChatService {
     // this.stompClient.debug = false;
 
     this.stompClient.connect({'UserID': this.userUID}, () => {
-      this.stompClient.subscribe("/chat", (message) => { // TODO: Create a STOP MESSAGE Model
+      this.stompClient.subscribe("/chat/" + this.roomID, (message) => { // TODO: Create a STOP MESSAGE Model
         if(message.body || message.body === "") {
           message.headers.UserID != this.userUID ? this.receiveMessage(message) : null;
         }
@@ -39,7 +40,7 @@ export class ChatService {
   sendMessage(message) {
     this.messageContent = message;
     if(!message) message = '\0';
-    this.stompClient.send("/app/send/message", {'UserID':this.userUID}, message);
+    this.stompClient.send("/app/send/message", {'UserID':this.userUID, 'room_id':this.roomID}, message);
   }
 
   saveSendMessage(message) {
@@ -54,6 +55,10 @@ export class ChatService {
 
   setUserUID(userUID: String) {
     this.userUID = userUID;
+  }
+
+  setRoomID(roomID: String) {
+    this.roomID = roomID;
   }
 
   private receiveMessage(message) {

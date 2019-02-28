@@ -13,7 +13,7 @@ import { VM } from '@stackblitz/sdk/typings/VM'
   providedIn: 'root'
 })
 export class StackBlitzService {
-  virtualMachine$: BehaviorSubject<VM>; // TODO: Find and set the Type. Possibilities { 'StackBlitzComponent', 'more...' }
+  virtualMachine$: BehaviorSubject<VM>;
   workspace: Workspace;
 
   constructor() {
