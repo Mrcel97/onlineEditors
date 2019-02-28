@@ -28,7 +28,7 @@ export class ChatService {
     // this.stompClient.debug = false;
 
     this.stompClient.connect({'UserID': this.userUID}, () => {
-      this.stompClient.subscribe("/chat", (message) => { // TODO: Create a STOP MESSAGE Model
+      this.stompClient.subscribe("/chat/" + this.roomID, (message) => { // TODO: Create a STOP MESSAGE Model
         if(message.body || message.body === "") {
           message.headers.UserID != this.userUID ? this.receiveMessage(message) : null;
         }
