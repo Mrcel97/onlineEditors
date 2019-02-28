@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { Workspace } from '../../assets/model/workspace';
 import { FirebaseUser } from '../../assets/model/user';
 import { httpOptions, httpWorkspaceOptions } from '../../assets/model/httpOptions'
+import  { backendURL } from '../../assets/configs/backendConfig';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class WorkspaceService {
     }
     this.user = owner;
     var ws = new Workspace(name, this.user, this.user, [this.user], []);
-    this.http.post<Workspace>('http://localhost:8080/api/workspaces', ws, httpOptions).subscribe(
+    this.http.post<Workspace>(backendURL + '/api/workspaces', ws, httpOptions).subscribe(
       data => {
         console.log('Workspace successfully created ', data);
         this.loadWorkspaces(this.user.uid)
@@ -43,7 +44,7 @@ export class WorkspaceService {
       alert('You must be logged to use chatComponent'); 
       return; 
     }
-    this.http.get('http://localhost:8080/api/workspaces/', httpWorkspaceOptions)
+    this.http.get(backendURL + '/api/workspaces/', httpWorkspaceOptions)
       .pipe(
         map( (data:any) => {
           return data._embedded.workspaces as Workspace[];

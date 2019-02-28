@@ -5,7 +5,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
-import  { backendURL } from '../../assets/configs/backendConfig';
+import  { backendSocketURL } from '../../assets/configs/backendConfig';
 
 var ENCODING = 'utf8';
 
@@ -23,7 +23,7 @@ export class ChatService {
   }
 
   initializeWebSocketConnection() {
-    let ws = new SockJS(backendURL);
+    let ws = new SockJS(backendSocketURL);
     this.stompClient = Stomp.over(ws);
     // this.stompClient.debug = false;
 
