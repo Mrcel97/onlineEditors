@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { Workspace } from '../../assets/model/workspace';
+import { Workspace, defaultWriterRequest } from '../../assets/model/workspace';
 import { FirebaseUser } from '../../assets/model/user';
 import { httpOptions, httpWorkspaceOptions } from '../../assets/model/httpOptions'
 import  { backendURL } from '../../assets/configs/backendConfig';
@@ -27,7 +27,8 @@ export class WorkspaceService {
       return; 
     }
     this.user = owner;
-    var ws = new Workspace(name, this.user, this.user, [this.user], []);
+    var ws = new Workspace(name, this.user, this.user, [this.user], [], defaultWriterRequest(this.user.uid, 0));
+    console.log('Providing: ', ws);
     this.http.post<Workspace>(backendURL + '/api/workspaces', ws, httpOptions).subscribe(
       data => {
         console.log('Workspace successfully created ', data);
@@ -59,4 +60,23 @@ export class WorkspaceService {
     this.router.navigate(['chat', id]);
   }
 
+  askForWrite(userID: string, workspaceID: string) {
+    this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
+      .subscribe( workspace => {
+        workspace.writerRequests[userID] == 0 ? workspace.writerRequests[userID] = this.getTime() : null;
+        this.http.patch(backendURL + '/api/workspaces/' + workspaceID, workspace, httpOptions).subscribe(
+          data => {
+            console.log('Workspace successfully patched ', data);
+          },
+          err => {
+            console.error('Error while patching the resource ', err);
+          }
+        );
+      });
+    
+  }
+
+  private getTime(): Number {
+    return new Date().getTime();
+  }
 }
