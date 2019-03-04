@@ -1,8 +1,10 @@
-import { Workspace } from 'src/assets/model/workspace';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ChatService } from './../../services/chat.service';
 import { Idle, NotIdle } from 'idlejs/dist';
+
+import { Workspace } from 'src/assets/model/workspace';
+import { WorkspaceService } from './../../services/workspace.service';
+import { ChatService } from './../../services/chat.service';
 
 @Component({
   selector: 'app-chat-room',
@@ -13,16 +15,19 @@ export class ChatRoomComponent implements OnInit {
   public chatContent: string;
   public message: string;
   public workspace: Workspace;
-  userUID: String = '';
+  private roomID: string;
+  userUID: string = '';
 
   constructor(
     public router: Router, 
     public chatService: ChatService,
+    public workspaceService: WorkspaceService,
     private route: ActivatedRoute
   ) {
     var params = this.route.snapshot.paramMap.get("workspace")
     if (params) { // POST MODE
       this.chatService.setRoomID(params);
+      this.roomID = params;
     }
   }
 
@@ -52,7 +57,11 @@ export class ChatRoomComponent implements OnInit {
     }).start();
   }
 
-  updateUserUID(status: String) {
+  askForWrite() {
+    this.roomID ? this.workspaceService.askForWrite(this.userUID, this.roomID) : null;
+  }
+
+  updateUserUID(status: string) {
     this.userUID = status;
     this.chatService.setUserUID(this.userUID);
   }
