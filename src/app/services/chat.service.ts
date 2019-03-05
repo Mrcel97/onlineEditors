@@ -18,6 +18,7 @@ export class ChatService {
   private messageContent: string;
   private userUID: String = 'None';
   private roomID: String = '';
+  private writeRequests: Map<string, Number>;
 
   constructor() {
   }
@@ -29,8 +30,9 @@ export class ChatService {
 
     this.stompClient.connect({'UserID': this.userUID}, () => {
       this.stompClient.subscribe("/chat/" + this.roomID, (message) => { // TODO: Create a STOP MESSAGE Model
-        if(message.body || message.body === "") {
-          message.headers.UserID != this.userUID ? this.receiveMessage(message) : null;
+        if (message.body || message.body === "") {
+          message.headers.writeRequests === true ? this.receiveRequests(message) : 
+            message.headers.UserID != this.userUID ? this.receiveMessage(message) : null;
         }
       });
     });
@@ -68,5 +70,21 @@ export class ChatService {
     
     // TODO: Future control, check if the user stop writing to load received changes
     // localStorage.setItem('rcvMessage', message);
+  }
+
+  private receiveRequests(requests) {
+    this.writeRequests = requests.body;
+    this.giveWriterTo(this.getMinY(this.writeRequests)[0]);
+  }
+
+  private getMinY(map: Map<string, Number>) {
+    var mapMin: [string, number] = ['', new Date().getTime()];
+    map.forEach( (val: number, key: string) => mapMin = (val != 0) && (mapMin[1] - val >= 0) ? [key, val] : mapMin);
+    return mapMin;
+  }
+
+  private giveWriterTo(userID: string) {
+    // TODO: find userID in Workspace collaborators
+    // TODO: PATCH Workspace Writer with previous TODO User result.
   }
 }

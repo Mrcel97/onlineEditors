@@ -73,7 +73,6 @@ export class WorkspaceService {
           }
         );
       });
-    
   }
 
   private getTime(): Number {
