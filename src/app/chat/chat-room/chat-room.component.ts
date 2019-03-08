@@ -16,7 +16,10 @@ export class ChatRoomComponent implements OnInit {
   public message: string;
   public workspace: Workspace;
   private roomID: string;
+  public options: boolean = false;
   userUID: string = '';
+  userEmail: string = '';
+  userStatus: boolean = false;
 
   constructor(
     public router: Router, 
@@ -58,11 +61,21 @@ export class ChatRoomComponent implements OnInit {
   }
 
   askForWrite() {
-    this.roomID ? this.workspaceService.askForWrite(this.userUID, this.roomID) : null;
+    this.roomID ? this.workspaceService.askForWrite(this.userUID, this.userEmail, this.roomID) : null;
   }
 
-  updateUserUID(status: string) {
-    this.userUID = status;
+  showOptions(status: boolean) {
+    this.options = status;
+  }
+
+  updateUserCredentials(status: string) {
+    this.userUID = status[0];
+    this.userEmail = status[1];
+    this.userStatus = this.userUID !== '' ? true : false;
     this.chatService.setUserUID(this.userUID);
+  }
+
+  updateCollaborators(status: string) {
+    this.workspaceService.addCollaborator(status, this.roomID);
   }
 }

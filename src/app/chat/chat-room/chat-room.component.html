@@ -3,7 +3,7 @@
   <h1 class="p-2">Real Time Example:</h1>
   <button type="button" class="btn btn-outline-info" mdbWavesEffect (click)="askForWrite()">Ask to write</button>
 </div>
-<div style="text-align:center">
+<div *ngIf="userUID !== ''" style="text-align:center">
   <div class="chat-container">
     <div class="chat">
         <div class="md-form">
@@ -13,4 +13,8 @@
     </div>
   </div>
 </div>
-<app-auth (user_uid)="updateUserUID($event)"></app-auth>
+<div *ngIf="userUID === ''" style="text-align:center">
+  <span>Sorry you're not allowed to see this content</span>
+</div>
+<app-github [user]='userStatus' *ngIf="options" (collaborator_email)="updateCollaborators($event)"></app-github>
+<app-auth (options_notification)="showOptions($event)" (user_credentials)="updateUserCredentials($event)"></app-auth>
