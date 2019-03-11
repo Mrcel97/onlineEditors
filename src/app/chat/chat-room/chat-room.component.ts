@@ -76,6 +76,6 @@ export class ChatRoomComponent implements OnInit {
   }
 
   updateCollaborators(status: string) {
-    this.workspaceService.addCollaborator(status, this.roomID);
+    this.workspaceService.addCollaborator(this.userUID, status, this.roomID);
   }
 }

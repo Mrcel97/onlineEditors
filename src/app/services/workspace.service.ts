@@ -66,8 +66,9 @@ export class WorkspaceService {
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
       .subscribe( workspace => {
         if (workspace.collaborators && !workspace.collaborators.includes(userEmail)) return console.error('Not allowed to write!');
-        workspace.writerRequests[userID] == 0 ? workspace.writerRequests[userID] = this.getTime() : null;
-        this.http.patch(backendURL + '/api/workspaces/' + workspaceID, workspace, httpOptions).subscribe(
+        (workspace.writerRequests[userID] == 0 || workspace.writerRequests[userID] == null) ? workspace.writerRequests[userID] = this.getTime() : null;
+        let worspaceData: WorkspaceData = new WorkspaceData(workspace, userEmail);
+        this.http.post(backendURL + '/api/workspaceAskToWrite/', worspaceData, httpOptions).subscribe(
           data => {
             console.log('Workspace successfully patched ', data);
           },
@@ -82,9 +83,10 @@ export class WorkspaceService {
     return new Date().getTime();
   }
 
-  addCollaborator(collaboratorEmail: string, workspaceID: string) {
+  addCollaborator(userID: string, collaboratorEmail: string, workspaceID: string) {
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
       .subscribe( workspace => {
+        if (userID != workspace.owner.uid) return console.error("Operation not allowed. Reason: User not owner.");
         workspace.collaborators.includes(collaboratorEmail) ? null : workspace.collaborators.push(collaboratorEmail);
         this.http.patch(backendURL + '/api/workspaces/' + workspaceID, workspace, httpOptions).subscribe(
           data => {
@@ -95,5 +97,15 @@ export class WorkspaceService {
           }
         );
       });
+  }
+}
+
+class WorkspaceData {
+  workspace: Workspace;
+  userEmail: String;
+
+  constructor(workspace: Workspace, userEmail: String) {
+    this.workspace = workspace;
+    this.userEmail = userEmail;
   }
 }
