@@ -16,6 +16,7 @@ var backendURL = 'http://localhost:8080';
 })
 export class WorkspaceService {
   localWorkspaces: Subject<Array<Workspace>> = new Subject();
+  localCollaborators: Subject<Array<string>> = new Subject();
   private user: FirebaseUser;
 
   constructor(
@@ -88,6 +89,7 @@ export class WorkspaceService {
       .subscribe( workspace => {
         if (userID != workspace.owner.uid) return console.error("Operation not allowed. Reason: User not owner.");
         workspace.collaborators.includes(collaboratorEmail) ? null : workspace.collaborators.push(collaboratorEmail);
+        this.localCollaborators.next(workspace.collaborators);
         this.http.patch(backendURL + '/api/workspaces/' + workspaceID, workspace, httpOptions).subscribe(
           data => {
             console.log('Collaborator successfully added ', data);
@@ -97,6 +99,15 @@ export class WorkspaceService {
           }
         );
       });
+  }
+
+  getCollaborators(userID: string, workspaceID: string) {
+    this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
+      .subscribe( workspace => {
+        if (userID !== workspace.owner.uid) return console.error("Operation not allowed. Reason: User not owner.");
+        this.localCollaborators.next(workspace.collaborators);
+      });
+    return this.localCollaborators;
   }
 }
 
