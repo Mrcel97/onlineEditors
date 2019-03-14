@@ -79,7 +79,7 @@ export class ChatService {
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
       .subscribe( workspace => {
         if (workspace.collaborators && !workspace.collaborators.includes(requesterID)) return console.error('Not allowed to write!');
-        var owner: boolean = (workspace.writer.uid == requesterID) ? true : false; // true: backend will add user
+        var owner: boolean = (workspace.writer.uid == requesterID) ? true : false; // true: new Writer, false: new WriteRequest
         this.stompClient.send("/app/send/request", {'owner':owner}, userID);
       });
   }

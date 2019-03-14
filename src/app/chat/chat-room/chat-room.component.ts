@@ -21,6 +21,7 @@ export class ChatRoomComponent implements OnInit {
   userUID: string = '';
   userEmail: string = '';
   userStatus: boolean = false;
+  isWriter: boolean = false;
 
   constructor(
     public router: Router, 
@@ -74,9 +75,20 @@ export class ChatRoomComponent implements OnInit {
     this.userEmail = status[1];
     this.userStatus = this.userUID !== '' ? true : false;
     this.chatService.setUserUID(this.userUID);
+    this.workspaceService.isWriter(this.userUID, this.roomID).subscribe(
+      result => { 
+        if (result) {
+          this.isWriter = result;
+          this.getWriteRequests();
+        }
+      }
+    );
+  }
+
+  private getWriteRequests() {
     this.workspaceService.getWriteRequests(this.userUID, this.roomID).subscribe( requests => {
       this.requests = Object.keys(requests);
-    });
+    }); 
   }
 
   updateCollaborators(status: string) {

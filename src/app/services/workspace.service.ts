@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
@@ -62,6 +62,19 @@ export class WorkspaceService {
 
   loadWorkspace(id: string) {
     this.router.navigate(['chat', id]);
+  }
+
+  isWriter(userID: string, workspaceID: string): BehaviorSubject<boolean> {
+    var isWriter: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
+    .subscribe( workspace => {
+      if (workspace.writer.uid === userID) {
+        isWriter.next(true);
+      } else {
+        isWriter.next(false);
+      }
+    });
+    return isWriter;
   }
 
   askForWrite(userID: string, userEmail: string, workspaceID: string) {
