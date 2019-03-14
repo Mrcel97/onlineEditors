@@ -17,6 +17,7 @@ export class ChatRoomComponent implements OnInit {
   public workspace: Workspace;
   private roomID: string;
   public options: boolean = false;
+  public requests: string[] = [];
   userUID: string = '';
   userEmail: string = '';
   userStatus: boolean = false;
@@ -73,6 +74,9 @@ export class ChatRoomComponent implements OnInit {
     this.userEmail = status[1];
     this.userStatus = this.userUID !== '' ? true : false;
     this.chatService.setUserUID(this.userUID);
+    this.workspaceService.getWriteRequests(this.userUID, this.roomID).subscribe( requests => {
+      this.requests = Object.keys(requests);
+    });
   }
 
   updateCollaborators(status: string) {

@@ -16,5 +16,13 @@
 <div *ngIf="userUID === ''" style="text-align:center">
   <span>Sorry you're not allowed to see this content</span>
 </div>
+<br>
+<br>
+<div *ngIf="requests" >
+  <span>Requests:</span>
+  <div *ngFor="let key of requests">
+    <span>{{key}}</span>
+  </div>
+</div>
 <app-github [user]='userStatus' *ngIf="options" (collaborator_email)="updateCollaborators($event)"></app-github>
 <app-auth (options_notification)="showOptions($event)" (user_credentials)="updateUserCredentials($event)"></app-auth>

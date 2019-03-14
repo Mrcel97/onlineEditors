@@ -1,5 +1,8 @@
+import { httpWorkspaceOptions } from './../../../dist/onlineEditors/assets/model/httpOptions';
+import { backendURL } from './../../assets/configs/backendConfig';
+import { Workspace } from '../../assets/model/workspace';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Buffer } from 'buffer';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 import * as Stomp from 'stompjs';
@@ -20,7 +23,7 @@ export class ChatService {
   private roomID: String = '';
   private writeRequests: Map<string, Number>;
 
-  constructor() {
+  constructor(public http: HttpClient) {
   }
 
   initializeWebSocketConnection() {
@@ -72,9 +75,19 @@ export class ChatService {
     // localStorage.setItem('rcvMessage', message);
   }
 
+  sendWriteRequest(requesterID: string, userID:string, workspaceID: string){
+    this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
+      .subscribe( workspace => {
+        if (workspace.collaborators && !workspace.collaborators.includes(requesterID)) return console.error('Not allowed to write!');
+        var owner: boolean = (workspace.writer.uid == requesterID) ? true : false; // true: backend will add user
+        this.stompClient.send("/app/send/request", {'owner':owner}, userID);
+      });
+  }
+
   private receiveRequests(requests) {
     this.writeRequests = requests.body;
-    this.giveWriterTo(this.getMinY(this.writeRequests)[0]);
+    console.log('Requests received from WebSocket: ', this.writeRequests);
+    //this.giveWriterTo(this.getMinY(this.writeRequests)[0]);
   }
 
   private getMinY(map: Map<string, Number>) {

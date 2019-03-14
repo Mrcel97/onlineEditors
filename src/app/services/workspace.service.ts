@@ -17,6 +17,7 @@ var backendURL = 'http://localhost:8080';
 export class WorkspaceService {
   localWorkspaces: Subject<Array<Workspace>> = new Subject();
   localCollaborators: Subject<Array<string>> = new Subject();
+  localWriteRequests: Subject<Map<string, Number>> = new Subject();
   private user: FirebaseUser;
 
   constructor(
@@ -67,7 +68,7 @@ export class WorkspaceService {
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
       .subscribe( workspace => {
         if (workspace.collaborators && !workspace.collaborators.includes(userEmail)) return console.error('Not allowed to write!');
-        (workspace.writerRequests[userID] == 0 || workspace.writerRequests[userID] == null) ? workspace.writerRequests[userID] = this.getTime() : null;
+        (workspace.writerRequests[userEmail] == 0 || workspace.writerRequests[userEmail] == null) ? workspace.writerRequests[userEmail] = this.getTime() : null;
         let worspaceData: WorkspaceData = new WorkspaceData(workspace, userEmail);
         this.http.post(backendURL + '/api/workspaceAskToWrite/', worspaceData, httpOptions).subscribe(
           data => {
@@ -108,6 +109,15 @@ export class WorkspaceService {
         this.localCollaborators.next(workspace.collaborators);
       });
     return this.localCollaborators;
+  }
+
+  getWriteRequests(userID: string, workspaceID: string) {
+    this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
+    .subscribe( workspace => {
+      if (userID !== workspace.owner.uid) return console.error("Operation not allowed. Reason: User not owner.");
+      this.localWriteRequests.next(workspace.writerRequests);
+    });
+    return this.localWriteRequests;
   }
 }
 
