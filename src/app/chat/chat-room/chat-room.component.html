@@ -21,7 +21,7 @@
 <div *ngIf="requests && isWriter" >
   <span>Requests:</span>
   <div *ngFor="let key of requests">
-    <button mdbBtn type="button" color="primary" outline="true" size="sm" (click)="router.navigate(['chat', workspace.id])" mdbWavesEffect>
+    <button mdbBtn type="button" color="primary" outline="true" size="sm" (click)="askForWrite(key)" mdbWavesEffect>
       Make writer
     </button>
     <span>{{key}}</span>

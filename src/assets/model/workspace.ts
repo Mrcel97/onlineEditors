@@ -6,7 +6,7 @@ export class Workspace {
   constructor(
     public name: string,
     public owner: FirebaseUser,
-    public writer: FirebaseUser,
+    public writer: string,
     public collaborators: string[],
     public files: File[],
     public writerRequests: Map<string, Number>,
@@ -25,7 +25,7 @@ export function workspaceSnapshotFactory(snapshot): Workspace {
     files.push(fileFactory(file_id+=1, file, userFactory(user_id, owner.displayName), snapshot[file]));
   }
   
-  return new Workspace(workspace_name, owner, owner, [owner.email], files, this.defaultWriterRequest(owner.uid, 0));
+  return new Workspace(workspace_name, owner, owner.uid, [owner.email], files, this.defaultWriterRequest(owner.uid, 0));
 }
 
 export function defaultWriterRequest(userID: string, requestTime: Number) {

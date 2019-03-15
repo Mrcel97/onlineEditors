@@ -1,5 +1,4 @@
 import { httpWorkspaceOptions } from './../../../dist/onlineEditors/assets/model/httpOptions';
-import { backendURL } from './../../assets/configs/backendConfig';
 import { Workspace } from '../../assets/model/workspace';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -8,9 +7,11 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
-import  { backendSocketURL } from '../../assets/configs/backendConfig';
+// import  { backendSocketURL, backendURL } from '../../assets/configs/backendConfig';
 
 var ENCODING = 'utf8';
+var backendURL = 'http://localhost:8080';
+var backendSocketURL = 'http://localhost:8080/socket';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class ChatService {
   private userUID: String = 'None';
   private roomID: String = '';
   private writeRequests: Map<string, Number>;
+  private localWriteRequests: Subject<Map<string, Number>> = new Subject();
 
   constructor(public http: HttpClient) {
   }
@@ -29,12 +31,12 @@ export class ChatService {
   initializeWebSocketConnection() {
     let ws = new SockJS(backendSocketURL);
     this.stompClient = Stomp.over(ws);
-    // this.stompClient.debug = false;
+    this.stompClient.debug = false;
 
     this.stompClient.connect({'UserID': this.userUID}, () => {
       this.stompClient.subscribe("/chat/" + this.roomID, (message) => { // TODO: Create a STOP MESSAGE Model
         if (message.body || message.body === "") {
-          message.headers.writeRequests === true ? this.receiveRequests(message) : 
+          message.headers.writeRequests === "true" ? this.receiveRequests(message) : 
             message.headers.UserID != this.userUID ? this.receiveMessage(message) : null;
         }
       });
@@ -75,29 +77,27 @@ export class ChatService {
     // localStorage.setItem('rcvMessage', message);
   }
 
-  sendWriteRequest(requesterID: string, userID:string, workspaceID: string){
+  sendWriteRequest(requesterEmail: string, requesterID: string, userID:string, workspaceID: string){
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
       .subscribe( workspace => {
-        if (workspace.collaborators && !workspace.collaborators.includes(requesterID)) return console.error('Not allowed to write!');
-        var owner: boolean = (workspace.writer.uid == requesterID) ? true : false; // true: new Writer, false: new WriteRequest
-        this.stompClient.send("/app/send/request", {'owner':owner}, userID);
+        if (workspace.collaborators && !workspace.collaborators.includes(requesterEmail)) return console.error('Not allowed to write!');
+        var writer: boolean = (workspace.writer == requesterID) ? true : false; // true: new Writer, false: new WriteRequest
+        this.stompClient.send("/app/send/request", {'UserID':this.userUID, 'room_id':this.roomID, 'writer':writer}, userID);
       });
   }
 
   private receiveRequests(requests) {
-    this.writeRequests = requests.body;
-    console.log('Requests received from WebSocket: ', this.writeRequests);
-    //this.giveWriterTo(this.getMinY(this.writeRequests)[0]);
+    var localRequests = JSON.parse(requests.body)
+    this.localWriteRequests.next(localRequests);
+  }
+
+  hearWriteRequestChanges() {
+    return this.localWriteRequests;
   }
 
   private getMinY(map: Map<string, Number>) {
     var mapMin: [string, number] = ['', new Date().getTime()];
     map.forEach( (val: number, key: string) => mapMin = (val != 0) && (mapMin[1] - val >= 0) ? [key, val] : mapMin);
     return mapMin;
-  }
-
-  private giveWriterTo(userID: string) {
-    // TODO: find userID in Workspace collaborators
-    // TODO: PATCH Workspace Writer with previous TODO User result.
   }
 }

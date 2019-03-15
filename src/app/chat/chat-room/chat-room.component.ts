@@ -45,6 +45,7 @@ export class ChatRoomComponent implements OnInit {
         this.message = message;
       }
     });
+    this.hearWriteRequestChanges();
   }
 
   sendMessage() {
@@ -62,8 +63,9 @@ export class ChatRoomComponent implements OnInit {
     }).start();
   }
 
-  askForWrite() {
-    this.roomID ? this.workspaceService.askForWrite(this.userUID, this.userEmail, this.roomID) : null;
+  askForWrite(requestedEmail: string = this.userEmail) {
+    this.roomID ? this.chatService.sendWriteRequest(this.userEmail, this.userUID, requestedEmail, this.roomID) : null;
+    //this.roomID ? this.workspaceService.askForWrite(this.userUID, this.userEmail, this.roomID) : null;
   }
 
   showOptions(status: boolean) {
@@ -87,8 +89,20 @@ export class ChatRoomComponent implements OnInit {
 
   private getWriteRequests() {
     this.workspaceService.getWriteRequests(this.userUID, this.roomID).subscribe( requests => {
-      this.requests = Object.keys(requests);
+      this.insertIntoRequests(requests);
     }); 
+  }
+
+  private hearWriteRequestChanges() {
+    this.chatService.hearWriteRequestChanges().subscribe( requests => {
+      this.insertIntoRequests(requests);
+    });
+  }
+
+  private insertIntoRequests(requests) {
+    Object.keys(requests).forEach( request => {
+      requests[request] !== 0 && !this.requests.includes(request) ? this.requests.push(request) : null;
+    });
   }
 
   updateCollaborators(status: string) {

@@ -31,7 +31,7 @@ export class WorkspaceService {
       return; 
     }
     this.user = owner;
-    var ws = new Workspace(name, this.user, this.user, [this.user.email], [], defaultWriterRequest(this.user.uid, 0));
+    var ws = new Workspace(name, this.user, this.user.uid, [this.user.email], [], defaultWriterRequest(this.user.email, 0));
     console.log('Providing: ', ws);
     this.http.post<Workspace>(backendURL + '/api/workspaces', ws, httpOptions).subscribe(
       data => {
@@ -68,7 +68,7 @@ export class WorkspaceService {
     var isWriter: BehaviorSubject<boolean> = new BehaviorSubject(false);
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
     .subscribe( workspace => {
-      if (workspace.writer.uid === userID) {
+      if (workspace.writer === userID) {
         isWriter.next(true);
       } else {
         isWriter.next(false);
