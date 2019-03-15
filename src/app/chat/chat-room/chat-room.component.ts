@@ -46,6 +46,9 @@ export class ChatRoomComponent implements OnInit {
       }
     });
     this.hearWriteRequestChanges();
+    this.workspaceService.localIsWriter.subscribe( status => {
+      this.isWriter = status;
+    });
   }
 
   sendMessage() {
@@ -77,10 +80,9 @@ export class ChatRoomComponent implements OnInit {
     this.userEmail = status[1];
     this.userStatus = this.userUID !== '' ? true : false;
     this.chatService.setUserUID(this.userUID);
-    this.workspaceService.isWriter(this.userUID, this.roomID).subscribe(
+    this.workspaceService.isWriter(this.userEmail, this.roomID).subscribe(
       result => { 
         if (result) {
-          this.isWriter = result;
           this.getWriteRequests();
         }
       }
@@ -88,7 +90,7 @@ export class ChatRoomComponent implements OnInit {
   }
 
   private getWriteRequests() {
-    this.workspaceService.getWriteRequests(this.userUID, this.roomID).subscribe( requests => {
+    this.workspaceService.getWriteRequests(this.userEmail, this.roomID).subscribe( requests => {
       this.insertIntoRequests(requests);
     }); 
   }
@@ -96,6 +98,7 @@ export class ChatRoomComponent implements OnInit {
   private hearWriteRequestChanges() {
     this.chatService.hearWriteRequestChanges().subscribe( requests => {
       this.insertIntoRequests(requests);
+      this.workspaceService.isWriter(this.userEmail, this.roomID)
     });
   }
 

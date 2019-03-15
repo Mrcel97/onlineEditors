@@ -77,12 +77,17 @@ export class ChatService {
     // localStorage.setItem('rcvMessage', message);
   }
 
-  sendWriteRequest(requesterEmail: string, requesterID: string, userID:string, workspaceID: string){
+  sendWriteRequest(requesterEmail: string, requesterID: string, requestedEmail:string, workspaceID: string){
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
       .subscribe( workspace => {
-        if (workspace.collaborators && !workspace.collaborators.includes(requesterEmail)) return console.error('Not allowed to write!');
-        var writer: boolean = (workspace.writer == requesterID) ? true : false; // true: new Writer, false: new WriteRequest
-        this.stompClient.send("/app/send/request", {'UserID':this.userUID, 'room_id':this.roomID, 'writer':writer}, userID);
+        if (workspace.collaborators && !workspace.collaborators.includes(requesterEmail)) {
+          return console.error('Not allowed to write!');
+        }
+        var writer: boolean = (workspace.writer == requesterEmail) ? true : false; // true: new Writer, false: new WriteRequest
+        if (writer == false && requesterEmail != requestedEmail) {
+          return console.error('Not allowed. Reason: You are not the writer');
+        }
+        this.stompClient.send("/app/send/request", {'UserID':this.userUID, 'requester':requesterEmail, 'room_id':this.roomID, 'writer':writer}, requestedEmail);
       });
   }
 

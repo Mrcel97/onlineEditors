@@ -18,6 +18,7 @@ export class WorkspaceService {
   localWorkspaces: Subject<Array<Workspace>> = new Subject();
   localCollaborators: Subject<Array<string>> = new Subject();
   localWriteRequests: Subject<Map<string, Number>> = new Subject();
+  localIsWriter: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private user: FirebaseUser;
 
   constructor(
@@ -31,7 +32,7 @@ export class WorkspaceService {
       return; 
     }
     this.user = owner;
-    var ws = new Workspace(name, this.user, this.user.uid, [this.user.email], [], defaultWriterRequest(this.user.email, 0));
+    var ws = new Workspace(name, this.user, this.user.email, [this.user.email], [], defaultWriterRequest(this.user.email, 0));
     console.log('Providing: ', ws);
     this.http.post<Workspace>(backendURL + '/api/workspaces', ws, httpOptions).subscribe(
       data => {
@@ -64,17 +65,16 @@ export class WorkspaceService {
     this.router.navigate(['chat', id]);
   }
 
-  isWriter(userID: string, workspaceID: string): BehaviorSubject<boolean> {
-    var isWriter: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isWriter(userEmail: string, workspaceID: string): BehaviorSubject<boolean> {
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
     .subscribe( workspace => {
-      if (workspace.writer === userID) {
-        isWriter.next(true);
+      if (workspace.writer == userEmail) {
+        this.localIsWriter.next(true);
       } else {
-        isWriter.next(false);
+        this.localIsWriter.next(false);
       }
     });
-    return isWriter;
+    return this.localIsWriter;
   }
 
   askForWrite(userID: string, userEmail: string, workspaceID: string) {
@@ -124,10 +124,10 @@ export class WorkspaceService {
     return this.localCollaborators;
   }
 
-  getWriteRequests(userID: string, workspaceID: string) {
+  getWriteRequests(userEmail: string, workspaceID: string) {
     this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
     .subscribe( workspace => {
-      if (userID !== workspace.owner.uid) return console.error("Operation not allowed. Reason: User not owner.");
+      if (userEmail !== workspace.writer) return console.error("Operation not allowed. Reason: User not writer.");
       this.localWriteRequests.next(workspace.writerRequests);
     });
     return this.localWriteRequests;

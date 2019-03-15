@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center" style="text-align: center; margin: 20vh auto auto auto;">
   <button type="button" class="btn btn-outline-info go-back" mdbWavesEffect (click)="router.navigateByUrl('/chat')"><i class="fas fa-arrow-left"></i></button>
   <h1 class="p-2">Real Time Example:</h1>
-  <button type="button" class="btn btn-outline-info" mdbWavesEffect (click)="askForWrite()">Ask to write</button>
+  <button *ngIf="!isWriter" type="button" class="btn btn-outline-info" mdbWavesEffect (click)="askForWrite()">Ask to write</button>
 </div>
 <div *ngIf="userUID !== ''" style="text-align:center">
   <div class="chat-container">
