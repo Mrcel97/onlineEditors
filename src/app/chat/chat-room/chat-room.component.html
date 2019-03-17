@@ -7,7 +7,7 @@
   <div class="chat-container">
     <div class="chat">
         <div class="md-form">
-          <textarea #chat (keyup)="sendMessage()" [(ngModel)]="message" type="text" id="form7" class="md-textarea md-textarea-auto form-control"></textarea>
+          <textarea #chat (keyup)="sendMessage()" [(ngModel)]="message" type="text" id="form7" [disabled]="!isWriter" class="md-textarea md-textarea-auto form-control"></textarea>
         </div>
       <div class="message"></div>
     </div>
