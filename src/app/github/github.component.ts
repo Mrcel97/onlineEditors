@@ -1,5 +1,5 @@
 import { GithubService } from './../services/github.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { StackBlitzService } from '../services/stack-blitz.service';
 
@@ -10,10 +10,13 @@ import { StackBlitzService } from '../services/stack-blitz.service';
 })
 export class GithubComponent implements OnInit {
   @Input() user: boolean;
+  @Output() collaborator_email: EventEmitter<String> = new EventEmitter<String>();
   repositoryInput: boolean = false;
   fileInput: boolean = false;
+  collaboratorInput: boolean = false;
   repoURL: string;
   fileURL: string;
+  collaboratorEmail: string;
   
   constructor(
     public stackBlitzService: StackBlitzService, 
@@ -28,6 +31,10 @@ export class GithubComponent implements OnInit {
 
   showFileInput() {
     this.fileInput = (this.fileInput) ? false : true;
+  }
+
+  showCollaboratorInput() {
+    this.collaboratorInput = (this.collaboratorInput) ? false : true;
   }
 
   loadWebRepo() {
@@ -46,5 +53,9 @@ export class GithubComponent implements OnInit {
         }
       );
     }
+  }
+
+  loadCollaborator() {
+    this.collaborator_email.emit(this.collaboratorEmail);
   }
 }

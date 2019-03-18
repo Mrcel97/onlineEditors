@@ -1,16 +1,31 @@
 <div class="d-flex justify-content-center" style="text-align: center; margin: 20vh auto auto auto;">
   <button type="button" class="btn btn-outline-info go-back" mdbWavesEffect (click)="router.navigateByUrl('/chat')"><i class="fas fa-arrow-left"></i></button>
   <h1 class="p-2">Real Time Example:</h1>
-  <button type="button" class="btn btn-outline-info" mdbWavesEffect (click)="askForWrite()">Ask to write</button>
+  <button *ngIf="!isWriter" type="button" class="btn btn-outline-info" mdbWavesEffect (click)="askForWrite()">Ask to write</button>
 </div>
-<div style="text-align:center">
+<div *ngIf="userUID !== ''" style="text-align:center">
   <div class="chat-container">
     <div class="chat">
         <div class="md-form">
-          <textarea #chat (keyup)="sendMessage()" [(ngModel)]="message" type="text" id="form7" class="md-textarea md-textarea-auto form-control"></textarea>
+          <textarea #chat (keyup)="sendMessage()" [(ngModel)]="message" type="text" id="form7" [disabled]="!isWriter" class="md-textarea md-textarea-auto form-control"></textarea>
         </div>
       <div class="message"></div>
     </div>
   </div>
 </div>
-<app-auth (user_uid)="updateUserUID($event)"></app-auth>
+<div *ngIf="userUID === ''" style="text-align:center">
+  <span>Sorry you're not allowed to see this content</span>
+</div>
+<br>
+<br>
+<div *ngIf="requests && isWriter" >
+  <span>Requests:</span>
+  <div *ngFor="let key of requests">
+    <button mdbBtn type="button" color="primary" outline="true" size="sm" (click)="askForWrite(key)" mdbWavesEffect>
+      Make writer
+    </button>
+    <span>{{key}}</span>
+  </div>
+</div>
+<app-github [user]='userStatus' *ngIf="options" (collaborator_email)="updateCollaborators($event)"></app-github>
+<app-auth (options_notification)="showOptions($event)" (user_credentials)="updateUserCredentials($event)"></app-auth>

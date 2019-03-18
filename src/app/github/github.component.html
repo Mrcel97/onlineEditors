@@ -1,4 +1,10 @@
 <div *ngIf="user">
+  <button (click)="showCollaboratorInput()" class="dot-button-sm load-collaborator-button" size="sm" mdbBtn type="button" color="white" mdbWavesEffect>
+    <i class="fas fa-share-alt fa-3x load-collaborator-icon"></i>
+  </button>
+  <input [(ngModel)]="collaboratorEmail" *ngIf="collaboratorInput" class="input-material-design collaborator-input" type="email" placeholder="Collaborator email">
+  <a *ngIf="collaboratorInput" class="submit submit-collaborator" (click)="loadCollaborator()"><i class="fas fa-arrow-right"></i></a>
+
   <a class="info" [mdbTooltip]="webRepoInfo" placement="left"><img class="info-icon" src="../../assets/media/info-solid.svg"/></a>  
   <button (click)="showFileInput()" class="dot-button-sm load-file-button" size="sm" mdbBtn type="button" color="white" mdbWavesEffect>
     <i class="fas fa-file fa-3x load-file-icon"></i>

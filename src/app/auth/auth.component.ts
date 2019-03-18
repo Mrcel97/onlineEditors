@@ -14,6 +14,7 @@ export class AuthComponent implements OnInit {
   @Output() options_notification: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Output() user_status: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Output() user_uid: EventEmitter<String> = new EventEmitter<String>();
+  @Output() user_credentials: EventEmitter<String[]> = new EventEmitter<String[]>();
   @Output() user_data: EventEmitter<FirebaseUser> = new EventEmitter<FirebaseUser>();
 
   constructor(public authService: AuthService) { }
@@ -23,6 +24,7 @@ export class AuthComponent implements OnInit {
       this.user = user;
       this.user_status.emit(user ? true : false);
       this.user_uid.emit(user ? user.uid : '');
+      this.user_credentials.emit(user ? [user.uid, user.email] : ['','']);
       this.user_data.emit(user ? user : null);
     } );
   }
