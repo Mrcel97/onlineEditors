@@ -7,9 +7,9 @@ import { map } from 'rxjs/operators';
 import { Workspace, defaultWriterRequest } from '../../assets/model/workspace';
 import { FirebaseUser } from '../../assets/model/user';
 import { httpOptions, httpWorkspaceOptions } from '../../assets/model/httpOptions'
-// import  { backendURL } from '../../assets/configs/backendConfig';
+import { backendURL } from '../../assets/configs/backendConfig';
 
-var backendURL = 'http://localhost:8080';
+// var backendURL = 'http://localhost:8080';
 
 @Injectable({
   providedIn: 'root'

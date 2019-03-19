@@ -1,4 +1,3 @@
-import { httpWorkspaceOptions } from './../../../dist/onlineEditors/assets/model/httpOptions';
 import { Workspace } from '../../assets/model/workspace';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -7,11 +6,12 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
-// import  { backendSocketURL, backendURL } from '../../assets/configs/backendConfig';
+import { httpWorkspaceOptions } from '../..//assets/model/httpOptions';
+import  { backendSocketURL, backendURL } from '../../assets/configs/backendConfig';
 
 var ENCODING = 'utf8';
-var backendURL = 'http://localhost:8080';
-var backendSocketURL = 'http://localhost:8080/socket';
+// var backendURL = 'http://localhost:8080';
+// var backendSocketURL = 'http://localhost:8080/socket';
 
 @Injectable({
   providedIn: 'root'
