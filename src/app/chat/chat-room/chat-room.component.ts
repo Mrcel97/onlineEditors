@@ -5,6 +5,7 @@ import { Idle, NotIdle } from 'idlejs/dist';
 import { Workspace } from 'src/assets/model/workspace';
 import { WorkspaceService } from './../../services/workspace.service';
 import { ChatService } from './../../services/chat.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-chat-room',
@@ -22,12 +23,14 @@ export class ChatRoomComponent implements OnInit {
   userEmail: string = '';
   userStatus: boolean = false;
   isWriter: boolean = false;
+  warningInterval;
 
   constructor(
     public router: Router, 
     public chatService: ChatService,
     public workspaceService: WorkspaceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     var params = this.route.snapshot.paramMap.get("workspace")
     if (params) { // POST MODE
@@ -37,7 +40,7 @@ export class ChatRoomComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.loadUserMode();
+    this.loadUserMode();
     this.chatService.initializeWebSocketConnection().subscribe( (message) => {
       if (this.message !== message) {
         this.message = message; // TODO: merge the diferences
@@ -48,6 +51,7 @@ export class ChatRoomComponent implements OnInit {
     this.hearWriteRequestChanges();
     this.workspaceService.localIsWriter.subscribe( status => {
       this.isWriter = status;
+      status ? this.loadUserMode() : null; 
     });
   }
 
@@ -56,13 +60,25 @@ export class ChatRoomComponent implements OnInit {
   }
 
   loadUserMode() {
-    new Idle().whenNotInteractive().within(3, 1000).do(() => {
-      console.log('User inactive')
-      this.chatService.sendMessage(this.message);
+    if (!this.isWriter) return;
+    new Idle().whenNotInteractive().within(60, 1000).do(() => {
+      this.toastr.warning('If you keep idle, in 60sec the write permission will be given to another collaborator!', 'System advertisment', {
+        progressBar: true,
+        timeOut: 60000,
+        closeButton: true
+      });
+      this.warningInterval = setInterval(() => {
+        this.requests.forEach(request => {
+          request != this.userEmail ? this.askForWrite(request) : null;
+        });
+        this.toastr.info('Write permission was given to another user', 'System info', {
+          progressBar: true
+        });
+        clearInterval(this.warningInterval);
+      },61000);
     }).start();
     new NotIdle().whenInteractive().within(1, 1000).do(() => {
-      console.log('User active')
-      this.chatService.saveSendMessage(this.message);
+      clearInterval(this.warningInterval);
     }).start();
   }
 
