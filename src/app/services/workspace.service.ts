@@ -4,21 +4,25 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { Workspace, defaultWriterRequest } from '../../assets/model/workspace';
+import { Workspace, defaultFiles, defaultWriterRequest } from '../../assets/model/workspace';
 import { FirebaseUser } from '../../assets/model/user';
 import { httpOptions, httpWorkspaceOptions } from '../../assets/model/httpOptions'
-import { backendURL } from '../../assets/configs/backendConfig';
+import { User } from '../../assets/model/user';
+import { File } from '../../assets/model/file';
+// import { backendURL } from '../../assets/configs/backendConfig';
 
-// var backendURL = 'http://localhost:8080';
+var backendURL = 'http://localhost:8080';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkspaceService {
   localWorkspaces: Subject<Array<Workspace>> = new Subject();
+  localWorkspace: BehaviorSubject<Workspace> = new BehaviorSubject(null);
   localCollaborators: Subject<Array<string>> = new Subject();
   localWriteRequests: Subject<Map<string, Number>> = new Subject();
   localIsWriter: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  workingFile: BehaviorSubject<File> = new BehaviorSubject(null);
   private user: FirebaseUser;
 
   constructor(
@@ -32,12 +36,12 @@ export class WorkspaceService {
       return; 
     }
     this.user = owner;
-    var ws = new Workspace(name, this.user, this.user.email, [this.user.email], [], defaultWriterRequest(this.user.email, 0));
+    var ws = new Workspace(name, this.user, this.user.email, [this.user.email], [defaultFiles(new User(this.user.uid,this.user.displayName))], defaultWriterRequest(this.user.email, 0));
     console.log('Providing: ', ws);
     this.http.post<Workspace>(backendURL + '/api/workspaces', ws, httpOptions).subscribe(
       data => {
         console.log('Workspace successfully created ', data);
-        this.loadWorkspaces(this.user.uid)
+        this.loadWorkspaces(this.user.uid);
       },
       err => {
         console.error('Error while creating the resource ', err);
@@ -59,6 +63,24 @@ export class WorkspaceService {
       .subscribe( workspaces => {
         this.localWorkspaces.next(workspaces);
       });
+  }
+
+  loadLocalWorkspace(workspaceID: string) {
+    console.log("Downloading workspace: " + workspaceID);
+
+    this.http.get<Workspace>(backendURL + '/api/workspaces/' + workspaceID, httpWorkspaceOptions)
+    .subscribe( workspace => {
+      this.localWorkspace.next(workspace);
+      this.setWorkingFile(workspace.files.filter(file => file.name == "README.md")[0].id);
+    });
+  }
+
+  setWorkingFile(fileID: string) {
+    if (this.localWorkspace.getValue().files.map(file => file.id).includes(fileID)) {
+      console.log("New workingFile: \n")
+      console.log(this.localWorkspace.getValue().files.find(file => file.id == fileID).name);
+      this.workingFile.next(this.localWorkspace.getValue().files.find(file => file.id == fileID));
+    }
   }
 
   loadWorkspace(id: string) {

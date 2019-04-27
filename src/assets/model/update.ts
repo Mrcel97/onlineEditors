@@ -19,7 +19,6 @@ export function sampleUpdateClass() {
     1,
     [
       fileFactory(
-        0, 
         'index.ts',
         userFactory(
           '1',
@@ -28,7 +27,6 @@ export function sampleUpdateClass() {
         `import moment from 'moment';\r\nimport example from 'moment'; // This is an update\r\n\r\ndocument.getElementById('time').innerHTML = moment().format('MMMM Do YYYY, h:mm:ss a');\r\n`
       ),
       fileFactory(
-        0, 
         'index.html',
         userFactory(
           '1',

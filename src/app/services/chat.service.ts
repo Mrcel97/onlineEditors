@@ -7,11 +7,11 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
 import { httpWorkspaceOptions } from '../..//assets/model/httpOptions';
-import  { backendSocketURL, backendURL } from '../../assets/configs/backendConfig';
+// import  { backendSocketURL, backendURL } from '../../assets/configs/backendConfig';
 
 var ENCODING = 'utf8';
-// var backendURL = 'http://localhost:8080';
-// var backendSocketURL = 'http://localhost:8080/socket';
+var backendURL = 'http://localhost:8080';
+var backendSocketURL = 'http://localhost:8080/socket';
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +44,10 @@ export class ChatService {
     return this.message;
   }
 
-  sendMessage(message) {
+  sendMessage(message, fileId: string) {
     this.messageContent = message;
     if(!message) message = '\0';
-    this.stompClient.send("/app/send/message", {'UserID':this.userUID, 'room_id':this.roomID}, message);
+    this.stompClient.send("/app/send/message", {'UserID':this.userUID, 'room_id':this.roomID, 'file_id':fileId}, message);
   }
 
   saveSendMessage(message) {

@@ -22,7 +22,6 @@ export class GithubService {
       response => {
         file.next(
           fileFactory(
-            fileId+=1,
             fileData.file_name,
             userFactory(userId, fileData.owner),
             response

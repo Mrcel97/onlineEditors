@@ -25,6 +25,9 @@ export class ChatRoomComponent implements OnInit {
   isWriter: boolean = false;
   warningInterval;
 
+  idle: Idle;
+  notIdle: NotIdle;
+
   constructor(
     public router: Router, 
     public chatService: ChatService,
@@ -49,6 +52,7 @@ export class ChatRoomComponent implements OnInit {
       }
     });
     this.hearWriteRequestChanges();
+    this.workspaceService.loadLocalWorkspace(this.roomID);
     this.workspaceService.localIsWriter.subscribe( status => {
       this.isWriter = status;
       status ? this.loadUserMode() : null; 
@@ -56,12 +60,15 @@ export class ChatRoomComponent implements OnInit {
   }
 
   sendMessage() {
-    this.userUID != '' ? this.chatService.sendMessage(this.message) : null;
+    this.userUID != '' ? this.chatService.sendMessage(this.message, this.workspaceService.workingFile.getValue().id) : null;
   }
 
   loadUserMode() {
     if (!this.isWriter) return;
-    new Idle().whenNotInteractive().within(60, 1000).do(() => {
+    if (this.idle != null) return; 
+    this.idle = new Idle() // Try to Singleton it
+    this.idle.whenNotInteractive().within(540, 1000).do(() => {
+      if (this.requests.length == 0) return;
       this.toastr.warning('If you keep idle, in 60sec the write permission will be given to another collaborator!', 'System advertisment', {
         progressBar: true,
         timeOut: 60000,
@@ -70,14 +77,17 @@ export class ChatRoomComponent implements OnInit {
       this.warningInterval = setInterval(() => {
         this.requests.forEach(request => {
           request != this.userEmail ? this.askForWrite(request) : null;
+          this.toastr.info('Write permission was given to another user', 'System info', {
+            progressBar: true
+          });
         });
-        this.toastr.info('Write permission was given to another user', 'System info', {
-          progressBar: true
-        });
+        
         clearInterval(this.warningInterval);
       },61000);
     }).start();
-    new NotIdle().whenInteractive().within(1, 1000).do(() => {
+    if(this.notIdle != null) return;
+    this.notIdle = new NotIdle();
+    this.notIdle.whenInteractive().within(1, 1000).do(() => {
       clearInterval(this.warningInterval);
     }).start();
   }

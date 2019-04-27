@@ -4,15 +4,15 @@ export class File {
   public html_url: string; // Github imported files
 
   constructor(
-    public id: number,
     public name: string,
     public owner: User,
     public language: string,
-    public content: string
+    public content: string,
+    public id?: string,
   ) {}
 }
 
-export function fileFactory(id:number, name: string, owner: User, content: string) {
+export function fileFactory(name: string, owner: User, content: string) {
   var nameComponents = name.split(".");
   var fileName = nameComponents.slice(0, nameComponents.length - 1).join(".");
   var fileLanguage: string;
@@ -22,5 +22,5 @@ export function fileFactory(id:number, name: string, owner: User, content: strin
   } else {
     fileLanguage = 'text';
   }
-  return new File(id, fileName, owner, fileLanguage, content);
+  return new File(fileName, owner, fileLanguage, content);
 };
